@@ -163,9 +163,10 @@ sub report_step1 {
 
     my @libraries = Koha::Libraries->search;
     my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
+	my @collections = Koha::Schema::Result::Collection->colTitle;
     $template->param(
         libraries => \@libraries,
-        categories => \@categories,
+        collections => \@collections,
     );
 
     $self->output_html( $template->output() );
