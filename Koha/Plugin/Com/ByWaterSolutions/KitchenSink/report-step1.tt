@@ -29,11 +29,11 @@
 
 		<br/><br/>
 
-		<label for="categorycode">Select Patron Category:</label>
-		<select name="categorycode">
+		<label for="collection">Select Collection:</label>
+		<select name="ccode">
 			<option value="%">Any</option>
-			[% FOREACH category IN categories %]
-				<option value="[% category.categorycode %]">[% category.description %]</option>
+			[% FOREACH collection IN collections %]
+				<option value="[% collection.ccode %]">[% collection.description %]</option>
 			[% END %]
 		</select>
 
