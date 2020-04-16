@@ -163,7 +163,7 @@ sub report_step1 {
 
     my @libraries = Koha::Libraries->search;
     my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
-	my @collections = Koha::Schema::Result::Collection;
+	my @collections = Koha::Schema::Result::Collection->search_limited({}, {order_by => ['colTitle']});;
     $template->param(
         libraries => \@libraries,
         collections => \@collections,
