@@ -164,7 +164,7 @@ sub report_step1 {
 
     my @libraries = Koha::Libraries->search;
     my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
-	my @collections = Koha::AuthorisedValues->(ccode);
+	my @collections = Koha::AuthorisedValues->search('ccode');
     $template->param(
         libraries => \@libraries,
         collections => \@collections,
