@@ -13,6 +13,7 @@ use Koha::Patron;
 use Koha::DateUtils;
 use Koha::Libraries;
 use Koha::Patron::Categories;
+use Koha::AuthorisedValues;
 use Koha::Account;
 use Koha::Account::Lines;
 use MARC::Record;
