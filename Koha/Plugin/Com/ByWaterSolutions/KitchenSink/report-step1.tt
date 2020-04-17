@@ -33,7 +33,7 @@
 		<select name="ccode">
 			<option value="%">Any</option>
 			[% FOREACH collection IN collections %]
-				<option value="[% collection.col_title %]">[% collection.col_desc %]</option>
+				<option value="[% collection.GetByCode('ccode') %]">[% collection.GetByCode('ccode') %]</option>
 			[% END %]
 		</select>
 
