@@ -162,7 +162,7 @@ sub report_step1 {
 
     my $template = $self->get_template({ file => 'report-step1.tt' });
 	
-	my $av = 'ccode';
+	my $av = (id => 'ccode')
 
     my @libraries = Koha::Libraries->search;
     my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
