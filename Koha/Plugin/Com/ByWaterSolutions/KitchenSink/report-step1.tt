@@ -30,10 +30,10 @@
 
 		<br/><br/>
 
-		<label for="collection">[% AuthorisedValues.GetAuthValueDropbox( 'ccode') %]</label>
+		<label for="collection"></label>
 		<select name="ccode">
 			<option value="%">Any</option>
-			[% FOREACH collection IN collections %]
+			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
 				<option value="[% collection %]">[% collection %]</option>
 			[% END %]
 		</select>
