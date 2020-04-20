@@ -1,3 +1,4 @@
+[% USE AuthorisedValues %]
 [% INCLUDE 'doc-head-open.inc' %]
  <title>Koha: Kitchen Sink Plugin: Report: Patron List</title>
  <script type="text/javascript" src="[% PLUGIN_PATH %]/datepicker/js/datepicker.js"></script>
@@ -29,11 +30,11 @@
 
 		<br/><br/>
 
-		<label for="collection">Select Collection:</label>
+		<label for="collection">[% AuthorisedValues.GetAuthValueDropbox( 'ccode') %]</label>
 		<select name="ccode">
 			<option value="%">Any</option>
 			[% FOREACH collection IN collections %]
-				<option value="[% collection.GetByCode('ccode') %]">[% collection.GetByCode('ccode') %]</option>
+				<option value="[% collection %]">[% collection %]</option>
 			[% END %]
 		</select>
 
