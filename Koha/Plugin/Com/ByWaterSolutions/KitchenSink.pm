@@ -9,6 +9,7 @@ use base qw(Koha::Plugins::Base);
 ## We will also need to include any Koha libraries we want to access
 use C4::Context;
 use C4::Auth;
+use C4::Koha;
 use Koha::Patron;
 use Koha::DateUtils;
 use Koha::Libraries;
@@ -165,7 +166,7 @@ sub report_step1 {
 	
     my @libraries = Koha::Libraries->search;
     my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
-	my @collections = Koha::GetAuthorisedValues([$av]);
+	my @collections = C4::Koha::GetAuthorisedValues([$av]);
     $template->param(
         libraries => \@libraries,
         collections => \@collections,
