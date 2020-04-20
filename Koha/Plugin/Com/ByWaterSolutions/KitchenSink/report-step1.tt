@@ -34,7 +34,7 @@
 		<select name="ccode">
 			<option value="%">Any</option>
 			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
-				<option value="[% collection.col_title %]">[% collection.col_desc %]</option>
+				<option value="[% collection.opac_description %]">[% collection.opac_description %]</option>
 			[% END %]
 		</select>
 
