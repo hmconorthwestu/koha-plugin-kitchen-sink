@@ -161,10 +161,11 @@ sub report_step1 {
     my $cgi = $self->{'cgi'};
 
     my $template = $self->get_template({ file => 'report-step1.tt' });
+	my $av = ( category => 'ccode' );
 	
     my @libraries = Koha::Libraries->search;
     my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
-	my @collections = Koha::AuthorisedValues->GetAuthValueDropbox('ccode');
+	my @collections = Koha::GetAuthorisedValues([$av]);
     $template->param(
         libraries => \@libraries,
         collections => \@collections,
