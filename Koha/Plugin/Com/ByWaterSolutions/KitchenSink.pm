@@ -182,10 +182,12 @@ sub report_step2 {
     my $dbh = C4::Context->dbh;
 
     my $branch                = $cgi->param('branch');
-    my $category_code         = $cgi->param('categorycode');
+    my $ccode         = $cgi->param('ccode');
     my $borrower_municipality = $cgi->param('borrower_municipality');
     my $output                = $cgi->param('output');
 
+	my $callFrom   = $cgi->param('callFrom');
+	my $callTo   = $cgi->param('callTo');
     my $fromDay   = $cgi->param('fromDay');
     my $fromMonth = $cgi->param('fromMonth');
     my $fromYear  = $cgi->param('fromYear');
@@ -202,9 +204,13 @@ sub report_step2 {
     }
 
     my $query = "
-        SELECT firstname, surname, address, city, zipcode, city, zipcode, dateexpiry FROM borrowers 
-        WHERE branchcode LIKE '$branch'
-        AND categorycode LIKE '$category_code'
+	SELECT items.itemcallnumber,items.cn_sort,items.datelastborrowed,biblio.title,biblioitems.publicationyear,items.issues
+	FROM items 
+	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber) 
+	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber) 
+	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode') AND items.cn_sort LIKE CONCAT(<<Mask>>, '%')
+	ORDER BY items.cn_source, items.cn_sort ASC
+
     ";
 
     if ( $fromDate && $toDate ) {
@@ -213,6 +219,21 @@ sub report_step2 {
             AND DATE( dateexpiry ) <= DATE( '$toDate' )  
         ";
     }
+	if ( $callFrom ) {
+		if ( $callTo ) {
+		$query .= "
+        items.cn_sort BETWEEN '$callFrom' AND '$callTo'
+		";
+		} else {
+        $query .= "
+        items.cn_sort LIKE CONCAT('$callFrom', '%')
+		";
+		}
+    }
+	
+	$query .= "
+	ORDER BY items.cn_source, items.cn_sort ASC
+	";
 
     my $sth = $dbh->prepare($query);
     $sth->execute();

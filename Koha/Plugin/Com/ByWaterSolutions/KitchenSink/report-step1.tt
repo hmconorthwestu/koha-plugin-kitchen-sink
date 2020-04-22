@@ -43,11 +43,11 @@
 		<p>Call Number Range (Optional):</p>
 		
 			<label>Start:</label>
-			<input id="call-from" name="fromMonth" value="" type="text" />/</td>
+			<input id="call-from" name="callFrom" value="" type="text" />/</td>
 		<br/>
 
 			<label>End:</label>
-			<input id="call-from" name="fromMonth" value="" type="text" />/</td>
+			<input id="call-to" name="callTo" value="" type="text" />/</td>
 		<br/>
 
 		<br/>
