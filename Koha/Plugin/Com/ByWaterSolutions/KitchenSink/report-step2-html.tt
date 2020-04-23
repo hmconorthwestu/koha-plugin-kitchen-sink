@@ -13,33 +13,32 @@
 
 <div id="doc3">
 <h5>Library: [% branch %]</h5>
-[% IF category_code %]
-	<h5>Category Code: [% category_code %]</h5>
+[% IF ccode %]
+	<h5>Collection: [% ccode %]</h5>
 [% END %]
-[% IF borrower_municipality %]
-	<h5>Municipality: [% borrower_municipality %]</h5>
-[% END %]
+
 <h5>Date Ran: [% date_ran | $KohaDates %]</h5>
 
 <table border=1>
   <thead>
     <tr> 
-      <th>Name</th>
-      <th>Street</th>
-      <th>City</th>  
-      <th>Zip Code</th>
-      <th>Expiration</th>
+      <th>Call Number</th>
+      <th>Title</th>
+      <th>publication year</th>  
+      <th>Last checkout date</th>
+      <th>Number checkouts</th>
     </tr>
   </thead>
 
   <tbody>
     [% FOREACH r IN results_loop %]
+	items.itemcallnumber as callnumber,items.cn_sort as cn_sort,items.datelastborrowed as lastcheckout,biblio.title as title,biblioitems.publicationyear as publicationyear,items.issues as checkouts
       <tr>
-        <td>[% r.firstname %] [% r.surname %]</td>
-        <td>[% r.address %]</td>
-        <td>[% r.city %]</td>
-        <td>[% r.zipcode %]</td>
-        <td>[% r.dateexpiry | $KohaDates %]</td> 
+        <td>[% r.callnumber %]</td>
+        <td>[% r.title %]</td>
+        <td>[% r.publicationyear %]</td>
+        <td>[% r.lastcheckout %]</td>
+        <td>[% r.checkouts %]</td> 
       </tr>
     [% END %]
   </tbody>

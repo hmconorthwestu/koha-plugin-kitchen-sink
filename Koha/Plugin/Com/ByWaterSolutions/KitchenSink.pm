@@ -204,14 +204,12 @@ sub report_step2 {
     }
 
     my $query = "
-	SELECT items.itemcallnumber,items.cn_sort,items.datelastborrowed,biblio.title,biblioitems.publicationyear,items.issues
+	SELECT items.itemcallnumber as callnumber,items.cn_sort as cn_sort,items.datelastborrowed as lastcheckout,biblio.title as title,biblioitems.publicationyear as publicationyear,items.issues as checkouts
 	FROM items 
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber) 
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber) 
-	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode') AND items.cn_sort LIKE CONCAT(<<Mask>>, '%')
-	ORDER BY items.cn_source, items.cn_sort ASC
-
-    ";
+	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode') 
+	";
 
     if ( $fromDate && $toDate ) {
         $query .= "
@@ -261,8 +259,8 @@ sub report_step2 {
 		branch       => Koha::Libraries->find($branch)->branchname,
     );
 
-    unless ( $category_code eq '%' ) {
-        $template->param( category_code => $category_code );
+    unless ( $ccode eq '%' ) {
+        $template->param( ccode => $ccode );
     }
 
     print $template->output();
