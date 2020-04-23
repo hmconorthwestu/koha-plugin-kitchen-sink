@@ -34,7 +34,11 @@
 		<select name="ccode">
 			<option value="%">Any</option>
 			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
+				[% IF collection.opac_description == "General" %]
+				<option value="[% collection.opac_description %]" selected="selected">[% collection.opac_description %]</option>
+				[% ELSE %]
 				<option value="[% collection.opac_description %]">[% collection.opac_description %]</option>
+				[% END %]
 			[% END %]
 		</select>
 
