@@ -32,7 +32,6 @@
 
   <tbody>
     [% FOREACH r IN results_loop %]
-	items.itemcallnumber as callnumber,items.cn_sort as cn_sort,items.datelastborrowed as lastcheckout,biblio.title as title,biblioitems.publicationyear as publicationyear,items.issues as checkouts
       <tr>
         <td>[% r.callnumber %]</td>
         <td>[% r.title %]</td>
