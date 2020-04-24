@@ -188,49 +188,35 @@ sub report_step2 {
 
 	my $callFrom   = $cgi->param('callFrom');
 	my $callTo   = $cgi->param('callTo');
-    my $fromDay   = $cgi->param('fromDay');
-    my $fromMonth = $cgi->param('fromMonth');
-    my $fromYear  = $cgi->param('fromYear');
-
-    my $toDay   = $cgi->param('toDay');
-    my $toMonth = $cgi->param('toMonth');
-    my $toYear  = $cgi->param('toYear');
-
-    my ( $fromDate, $toDate );
-    if ( $fromDay && $fromMonth && $fromYear && $toDay && $toMonth && $toYear )
-    {
-        $fromDate = "$fromYear-$fromMonth-$fromDay";
-        $toDate   = "$toYear-$toMonth-$toDay";
-    }
+    my $publicationYear  = $cgi->param('publicationYear');
 
     my $query = "
-	SELECT items.itemcallnumber as callnumber,items.cn_sort as cn_sort,items.datelastborrowed as lastcheckout,biblio.title as title,biblioitems.publicationyear as publicationyear,items.issues as checkouts
+	SELECT items.itemcallnumber as callnumber,items.cn_sort as cn_sort,items.cn_source,items.datelastborrowed as lastcheckout,biblio.title as title,biblioitems.publicationyear as publicationyear,items.issues as checkouts
 	FROM items 
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber) 
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber) 
 	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode') 
 	";
 
-    if ( $fromDate && $toDate ) {
+    if ( $publicationYear ) {
         $query .= "
-            AND DATE( dateexpiry ) >= DATE( '$fromDate' )
-            AND DATE( dateexpiry ) <= DATE( '$toDate' )  
+            AND DATE( publicationyear ) < DATE( '$publicationYear' )
         ";
     }
 	if ( $callFrom ) {
 		if ( $callTo ) {
 		$query .= "
-        items.cn_sort BETWEEN '$callFrom' AND '$callTo'
+        cn_sort BETWEEN '$callFrom' AND '$callTo'
 		";
 		} else {
         $query .= "
-        items.cn_sort LIKE CONCAT('$callFrom', '%')
+        cn_sort LIKE CONCAT('$callFrom', '%')
 		";
 		}
     }
 	
 	$query .= "
-	ORDER BY items.cn_source, items.cn_sort ASC
+	ORDER BY items.cn_source, cn_sort ASC
 	";
 
     my $sth = $dbh->prepare($query);
@@ -243,7 +229,7 @@ sub report_step2 {
 
     my $filename;
     if ( $output eq "csv" ) {
-        print $cgi->header( -attachment => 'borrowers.csv' );
+        print $cgi->header( -attachment => 'circulation.csv' );
         $filename = 'report-step2-csv.tt';
     }
     else {

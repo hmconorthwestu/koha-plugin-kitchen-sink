@@ -56,34 +56,10 @@
 
 		<br/>
 
-		<label>Date From:</label>
-		<table class="split-date-wrap" border="0" cellpadding="0" cellspacing="0">
-
-			<tr>
-				<td><input size="2" id="date-from-mm" name="fromMonth" value="" maxlength="2" type="text" />/</td>
-				<td><input size="2" id="date-from-dd" name="fromDay" value="" maxlength="2" type="text" />/</td>
-				<td><input size="4" class="split-date fill-grid statusformat-l-cc-sp-d-sp-F-sp-Y show-weeks" id="date-from" name="fromYear" value="" maxlength="4" type="text" /></td>
-				<td>
-					<a tabindex="0" aria-haspopup="true" role="button" id="fd-but-date-from" title="Show Calendar" class="date-picker-control" href="#date-from">
-						<span>&nbsp;</span>
-					</a>
-
-				</td>
-			</tr>
-		</table>  
-		<br/>
-
-		<label>Date To:</label>
+		<label>Published before:</label>
 		<table class="split-date-wrap" border="0" cellpadding="0" cellspacing="0">
 			<tr>
-				<td><input size="2" id="date-to-mm" name="toMonth" value="" maxlength="2" type="text" />/</td>
-					<td><input size="2" id="date-to-dd" name="toDay" value="" maxlength="2" type="text" />/</td>
-				<td><input size="4" class="split-date fill-grid statusformat-l-cc-sp-d-sp-F-sp-Y show-weeks" id="date-to" name="toYear" value="" maxlength="4" type="text" /></td>
-				<td>
-					<a tabindex="0" aria-haspopup="true" role="button" id="fd-but-date-to" title="Show Calendar" class="date-picker-control" href="#date-to">
-						<span>&nbsp;</span>
-					</a>
-				</td>
+				<td><input size="4" id="publicationYear" name="publicationYear" value="" maxlength="4" type="text" /></td>
 			</tr>
 
 		</table>  
