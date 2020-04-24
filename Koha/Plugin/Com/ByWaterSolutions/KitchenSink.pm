@@ -206,7 +206,7 @@ sub report_step2 {
 	if ( $callFrom ) {
 		if ( $callTo ) {
 		$query .= "
-        AND cn_sort BETWEEN '$callFrom' AND '$callTo'
+        AND cn_sort LIKE CONCAT('$callFrom', '%') AND cn_sort < '$callTo'
 		";
 		} else {
         $query .= "
