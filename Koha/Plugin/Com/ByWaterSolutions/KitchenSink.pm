@@ -183,7 +183,6 @@ sub report_step2 {
 
     my $branch                = $cgi->param('branch');
     my $ccode         = $cgi->param('ccode');
-    my $borrower_municipality = $cgi->param('borrower_municipality');
     my $output                = $cgi->param('output');
 
 	my $callFrom   = $cgi->param('callFrom');
@@ -191,7 +190,7 @@ sub report_step2 {
     my $publicationYear  = $cgi->param('publicationYear');
 
     my $query = "
-	SELECT items.itemcallnumber as callnumber,items.cn_sort as cn_sort,items.cn_source,items.datelastborrowed as lastcheckout,biblio.title as title,biblioitems.publicationyear as publicationyear,items.issues as checkouts
+	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblioitems.publicationyear AS publicationyear,items.issues AS checkouts
 	FROM items 
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber) 
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber) 
@@ -200,17 +199,17 @@ sub report_step2 {
 
     if ( $publicationYear ) {
         $query .= "
-            AND publicationyear < '$publicationYear'
+            AND biblioitems.publicationyear < '$publicationYear'
         ";
     }
 	if ( $callFrom ) {
 		if ( $callTo ) {
 		$query .= "
-        AND cn_sort LIKE CONCAT('$callFrom', '%') AND cn_sort < '$callTo'
+        AND items.cn_sort LIKE CONCAT('$callFrom', '%') AND cn_sort < '$callTo'
 		";
 		} else {
         $query .= "
-        AND cn_sort LIKE CONCAT('$callFrom', '%')
+        AND items.cn_sort LIKE CONCAT('$callFrom', '%')
 		";
 		}
     }
