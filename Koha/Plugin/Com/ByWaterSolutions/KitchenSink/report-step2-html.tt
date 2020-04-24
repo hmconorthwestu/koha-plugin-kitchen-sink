@@ -17,13 +17,6 @@
 	<h5>Collection: [% ccode %]</h5>
 [% END %]
 
-[% IF callFrom %]
-	<h5>Call Number start: [% callFrom %]</h5>
-[% END %]
-[% IF callTo %]
-	<h5>Call Number end: [% callTo %]</h5>
-[% END %]
-
 <h5>Date Ran: [% date_ran | $KohaDates %]</h5>
 
 <table border=1>
