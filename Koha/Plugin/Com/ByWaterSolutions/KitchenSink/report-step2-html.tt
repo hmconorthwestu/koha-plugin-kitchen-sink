@@ -35,7 +35,7 @@
       <tr>
         <td>[% r.callnumber %]</td>
         <td>[% r.title %]</td>
-        <td>[% r.copyrightYear %]</td>
+        <td>[% r.copyrightyear %]</td>
         <td>[% r.lastcheckout %]</td>
         <td>[% r.checkouts %]</td> 
       </tr>
