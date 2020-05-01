@@ -24,7 +24,7 @@
     <tr> 
       <th>Call Number</th>
       <th>Title</th>
-      <th>publication year</th>  
+      <th>copyright year</th>  
       <th>Last checkout date</th>
       <th>Number checkouts</th>
     </tr>
@@ -35,7 +35,7 @@
       <tr>
         <td>[% r.callnumber %]</td>
         <td>[% r.title %]</td>
-        <td>[% r.publicationyear %]</td>
+        <td>[% r.copyrightYear %]</td>
         <td>[% r.lastcheckout %]</td>
         <td>[% r.checkouts %]</td> 
       </tr>

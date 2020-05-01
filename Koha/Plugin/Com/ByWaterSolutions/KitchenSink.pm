@@ -187,10 +187,10 @@ sub report_step2 {
 
 	my $callFrom   = $cgi->param('callFrom');
 	my $callTo   = $cgi->param('callTo');
-    my $publicationYear  = $cgi->param('publicationYear');
+    my $copyrightYear  = $cgi->param('copyrightYear');
 
     my $query = "
-	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblioitems.publicationyear AS publicationyear,items.issues AS checkouts
+	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblio.copyrightdate,items.issues AS checkouts
 	FROM items 
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber) 
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber) 
@@ -199,13 +199,13 @@ sub report_step2 {
 
     if ( $publicationYear ) {
         $query .= "
-            AND biblioitems.publicationyear < '$publicationYear'
+            AND biblio.copyrightdate < '$copyrightYear'
         ";
     }
 	if ( $callFrom ) {
 		if ( $callTo ) {
 		$query .= "
-        AND items.cn_sort LIKE CONCAT('$callFrom', '%') AND cn_sort < '$callTo'
+        AND items.cn_sort LIKE CONCAT('$callFrom', '%') AND items.cn_sort < '$callTo'
 		";
 		} else {
         $query .= "
@@ -215,7 +215,7 @@ sub report_step2 {
     }
 	
 	$query .= "
-	ORDER BY items.cn_source, cn_sort ASC
+	ORDER BY items.cn_source, items.cn_sort ASC
 	";
 
     my $sth = $dbh->prepare($query);

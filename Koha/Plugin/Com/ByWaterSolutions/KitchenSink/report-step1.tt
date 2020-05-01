@@ -59,7 +59,7 @@
 		<label>Published before:</label>
 		<table class="split-date-wrap" border="0" cellpadding="0" cellspacing="0">
 			<tr>
-				<td><input size="4" id="publicationYear" name="publicationYear" value="" maxlength="4" type="text" /></td>
+				<td><input size="4" id="copyrightYear" name="copyrightYear" value="" maxlength="4" type="text" /></td>
 			</tr>
 
 		</table>  
