@@ -190,7 +190,7 @@ sub report_step2 {
     my $copyrightYear  = $cgi->param('copyrightYear');
 
     my $query = "
-	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblio.copyrightdate,items.issues AS checkouts
+	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblio.copyrightdate as copyrightyear,items.issues AS checkouts
 	FROM items 
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber) 
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber) 
