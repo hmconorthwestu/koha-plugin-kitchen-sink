@@ -199,7 +199,7 @@ sub report_step2 {
 
     if ( $copyrightYear ) {
         $query .= "
-            AND biblio.copyrightdate < '$copyrightYear'
+            AND copyrightyear < '$copyrightYear'
         ";
     }
 	if ( $callFrom ) {
