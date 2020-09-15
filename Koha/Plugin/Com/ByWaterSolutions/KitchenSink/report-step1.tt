@@ -64,12 +64,7 @@
     </table>
     <br/>
     <label>Max Checkouts:</label>
-    <table class="split-date-wrap" border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <td><input id="checkouts" name="checkouts" value="" type="text" />/</td>
-      </tr>
-    </table>
-
+    <input id="checkouts" name="checkouts" value="" type="text" />
 		<br/><br/>
 
 		<label for="output">Output Data to:</label>
