@@ -195,15 +195,22 @@ sub report_step2 {
 	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode')
 	";
 
-    if ( $copyrightYear ) {
-        $query .= "
-            AND biblio.copyrightdate < '$copyrightYear'
-        ";
-    }
+  if ( $copyrightYear ) {
+      $query .= "
+          AND biblio.copyrightdate < '$copyrightYear'
+      ";
+  }
+
+  if ( $checkouts ) {
+      $query .= "
+          AND items.issues <= '$checkouts'
+      ";
+  }
+
 	if ( $callFrom ) {
 		if ( $callTo ) {
-      my $callToLength = scalar($callto);
-      my $callFromLength = scalar($callfrom);
+      my $callToLength = scalar($callTo);
+      my $callFromLength = scalar($callFrom);
 		$query .= "
         AND BETWEEN LEFT(items.cn_sort,$callFromLength) IN ('$callFrom') AND LEFT(items.cn_sort,$callToLength) IN ('$callTo')
 		";
