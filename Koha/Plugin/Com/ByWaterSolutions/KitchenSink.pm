@@ -183,10 +183,9 @@ sub report_step2 {
     my $ccode         = $cgi->param('ccode');
     my $output                = $cgi->param('output');
 
-	  my $callFrom   = $cgi->param('callFrom');
-	  my $callTo   = $cgi->param('callTo');
+	my $callFrom   = $cgi->param('callFrom');
+	my $callTo   = $cgi->param('callTo');
     my $copyrightYear  = $cgi->param('copyrightYear');
-    my $checkouts   = $cgi->param('checkouts');
 
     my $query = "
 	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblio.copyrightdate as copyrightyear,items.issues AS checkouts
