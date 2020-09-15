@@ -10,13 +10,11 @@ use base qw(Koha::Plugins::Base);
 use C4::Context;
 use C4::Auth;
 use C4::Koha;
-use Koha::Patron;
-use Koha::DateUtils;
-use Koha::Libraries;
-use Koha::Patron::Categories;
-use Koha::AuthorisedValues;
-use Koha::Account;
-use Koha::Account::Lines;
+#use Koha::DateUtils;
+#use Koha::Libraries;
+#use Koha::Patron::Categories;
+#use Koha::AuthorisedValues;
+#use Koha::Account::Lines;
 use MARC::Record;
 use Cwd qw(abs_path);
 use Mojo::JSON qw(decode_json);;
@@ -163,7 +161,7 @@ sub report_step1 {
 
     my $template = $self->get_template({ file => 'report-step1.tt' });
 	my $av = ( category => 'ccode' );
-	
+
     my @libraries = Koha::Libraries->search;
     my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
 	my @collections = C4::Koha::GetAuthorisedValues([$av]);
@@ -191,10 +189,10 @@ sub report_step2 {
 
     my $query = "
 	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblio.copyrightdate as copyrightyear,items.issues AS checkouts
-	FROM items 
-	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber) 
-	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber) 
-	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode') 
+	FROM items
+	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber)
+	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber)
+	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode')
 	";
 
     if ( $copyrightYear ) {
@@ -204,8 +202,10 @@ sub report_step2 {
     }
 	if ( $callFrom ) {
 		if ( $callTo ) {
+      my $callToLength = scalar($callto);
+      my $callFromLength = scalar($callfrom);
 		$query .= "
-        AND items.cn_sort LIKE CONCAT('$callFrom', '%') AND items.cn_sort < '$callTo'
+        AND BETWEEN LEFT(items.cn_sort,$callFromLength) IN ('$callFrom') AND LEFT(items.cn_sort,$callToLength) IN ('$callTo')
 		";
 		} else {
         $query .= "
@@ -213,7 +213,7 @@ sub report_step2 {
 		";
 		}
     }
-	
+
 	$query .= "
 	ORDER BY items.cn_source, items.cn_sort ASC
 	";
