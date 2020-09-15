@@ -249,7 +249,7 @@ sub report_step2 {
   $template->param(
       date_ran     => dt_from_string(),
       results_loop => \@results,
-	branch       => Koha::Libraries->find($branch)->branchname,
+	    branch       => Koha::Libraries->find($branch)->branchname,
   );
 
   unless ( $ccode eq '%' ) {
