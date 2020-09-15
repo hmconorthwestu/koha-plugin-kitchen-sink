@@ -156,39 +156,39 @@ sub uninstall() {
 ## You can manage the control flow of your plugin any
 ## way you wish, but I find this is a good approach
 sub report_step1 {
-  my ( $self, $args ) = @_;
-  my $cgi = $self->{'cgi'};
+    my ( $self, $args ) = @_;
+    my $cgi = $self->{'cgi'};
 
-  my $template = $self->get_template({ file => 'report-step1.tt' });
+    my $template = $self->get_template({ file => 'report-step1.tt' });
 	my $av = ( category => 'ccode' );
 
-  my @libraries = Koha::Libraries->search;
-  my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
+    my @libraries = Koha::Libraries->search;
+    my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
 	my @collections = C4::Koha::GetAuthorisedValues([$av]);
-  $template->param(
-      libraries => \@libraries,
-      collections => \@collections,
-  );
+    $template->param(
+        libraries => \@libraries,
+        collections => \@collections,
+    );
 
-  $self->output_html( $template->output() );
+    $self->output_html( $template->output() );
 }
 
 sub report_step2 {
-  my ( $self, $args ) = @_;
-  my $cgi = $self->{'cgi'};
+    my ( $self, $args ) = @_;
+    my $cgi = $self->{'cgi'};
 
-  my $dbh = C4::Context->dbh;
+    my $dbh = C4::Context->dbh;
 
-  my $branch                = $cgi->param('branch');
-  my $ccode         = $cgi->param('ccode');
-  my $output                = $cgi->param('output');
+    my $branch                = $cgi->param('branch');
+    my $ccode         = $cgi->param('ccode');
+    my $output                = $cgi->param('output');
 
-  my $callFrom   = $cgi->param('callFrom');
-  my $callTo   = $cgi->param('callTo');
-  my $copyrightYear  = $cgi->param('copyrightYear');
-  my $checkouts   = $cgi->param('checkouts');
+	  my $callFrom   = $cgi->param('callFrom');
+	  my $callTo   = $cgi->param('callTo');
+    my $copyrightYear  = $cgi->param('copyrightYear');
+    my $checkouts   = $cgi->param('checkouts');
 
-  my $query = "
+    my $query = "
 	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblio.copyrightdate as copyrightyear,items.issues AS checkouts
 	FROM items
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber)
@@ -220,43 +220,43 @@ sub report_step2 {
         AND items.cn_sort LIKE CONCAT('$callFrom', '%')
 		";
 		}
-  }
+    }
 
 	$query .= "
 	ORDER BY items.cn_source, items.cn_sort ASC
 	";
 
-  my $sth = $dbh->prepare($query);
-  $sth->execute();
+    my $sth = $dbh->prepare($query);
+    $sth->execute();
 
-  my @results;
-  while ( my $row = $sth->fetchrow_hashref() ) {
-      push( @results, $row );
-  }
+    my @results;
+    while ( my $row = $sth->fetchrow_hashref() ) {
+        push( @results, $row );
+    }
 
-  my $filename;
-  if ( $output eq "csv" ) {
-      print $cgi->header( -attachment => 'circulation.csv' );
-      $filename = 'report-step2-csv.tt';
-  }
-  else {
-      print $cgi->header();
-      $filename = 'report-step2-html.tt';
-  }
+    my $filename;
+    if ( $output eq "csv" ) {
+        print $cgi->header( -attachment => 'circulation.csv' );
+        $filename = 'report-step2-csv.tt';
+    }
+    else {
+        print $cgi->header();
+        $filename = 'report-step2-html.tt';
+    }
 
-  my $template = $self->get_template({ file => $filename });
+    my $template = $self->get_template({ file => $filename });
 
-  $template->param(
-      date_ran     => dt_from_string(),
-      results_loop => \@results,
-	branch       => Koha::Libraries->find($branch)->branchname,
-  );
+    $template->param(
+        date_ran     => dt_from_string(),
+        results_loop => \@results,
+		branch       => Koha::Libraries->find($branch)->branchname,
+    );
 
-  unless ( $ccode eq '%' ) {
-      $template->param( ccode => $ccode );
-  }
+    unless ( $ccode eq '%' ) {
+        $template->param( ccode => $ccode );
+    }
 
-  print $template->output();
+    print $template->output();
 }
 
 1;
