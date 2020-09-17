@@ -213,7 +213,7 @@ sub report_step2 {
       my $callToLength = scalar($callTo);
       my $callFromLength = scalar($callFrom);
 		$query .= "
-        AND BETWEEN LEFT(items.cn_sort,$callFromLength) IN ('$callFrom') AND LEFT(items.cn_sort,$callToLength) IN ('$callTo')
+        AND LEFT(items.cn_sort,$callFromLength, $callToLength) IN ('$callFrom','$callTo')
 		";
 		} else {
         $query .= "
