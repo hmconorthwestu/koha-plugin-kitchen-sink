@@ -45,12 +45,12 @@
 		<br/><br/>
 
 		<p>Call Number Range (Optional):</p>
-		
+
 			<label>Start:</label>
 			<input id="call-from" name="callFrom" value="" type="text" />/</td>
 		<br/>
 
-			<label>End:</label>
+			<label>End before (e.g., enter PB to get items through P):</label>
 			<input id="call-to" name="callTo" value="" type="text" />/</td>
 		<br/>
 
@@ -62,7 +62,7 @@
 				<td><input size="4" id="copyrightYear" name="copyrightYear" value="" maxlength="4" type="text" /></td>
 			</tr>
 
-		</table>  
+		</table>
 
 		<br/><br/>
 

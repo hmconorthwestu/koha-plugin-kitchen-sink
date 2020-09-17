@@ -213,7 +213,7 @@ sub report_step2 {
 #      my $callToLength = scalar($callTo);
 #      my $callFromLength = scalar($callFrom);
 		$query .= "
-        AND SUBSTRING(items.cn_sort,1,3) BETWEEN $callFrom AND $callTo
+        AND SUBSTRING(items.cn_sort,1,2) BETWEEN CONCAT('$callFrom', '?') AND CONCAT('$callTo', '~')
 		";
 		} else {
         $query .= "
