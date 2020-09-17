@@ -1,6 +1,6 @@
 [% USE AuthorisedValues %]
 [% INCLUDE 'doc-head-open.inc' %]
- <title>Koha: Kitchen Sink Plugin: Report: Patron List</title>
+ <title>Koha Historical Usage Report</title>
  <script type="text/javascript" src="[% PLUGIN_PATH %]/datepicker/js/datepicker.js"></script>
  <link href="[% PLUGIN_PATH %]/datepicker/css/datepicker.css" rel="stylesheet" type="text/css" />
 [% INCLUDE 'doc-head-close.inc' %]
@@ -19,7 +19,7 @@
                 <input type="hidden" name="class" value="[% CLASS %]"/>
                 <input type="hidden" name="method" value="[% METHOD %]"/>
 
-		<label for="branch">Select Library:</label>
+		<label>Select Library:</label>
 		<select name="branch">
 			[% FOREACH library IN libraries %]
 				<option	value="[% library.branchcode %]">
@@ -30,7 +30,7 @@
 
 		<br/><br/>
 
-		<label for="collection"></label>
+		<label>Collection</label>
 		<select name="ccode">
 			<option value="%">Any</option>
 			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
@@ -44,14 +44,14 @@
 
 		<br/><br/>
 
-		<p>Call Number Range (Optional):</p>
+		<p>Call Number Range (each field optional):</p>
 
 			<label>Start:</label>
-			<input id="call-from" name="callFrom" value="" type="text" />/</td>
+			<input id="call-from" name="callFrom" value="" type="text" /></td>
 		<br/>
 
-			<label>End before (e.g., enter PB to get items through P):</label>
-			<input id="call-to" name="callTo" value="" type="text" />/</td>
+			<label>End:</label>
+			<input id="call-to" name="callTo" value="" type="text" /></td>
 		<br/>
 
 		<br/>
