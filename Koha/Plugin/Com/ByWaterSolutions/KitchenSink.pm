@@ -210,10 +210,10 @@ sub report_step2 {
 
 	if ( $callFrom ) {
 		if ( $callTo ) {
-      my $callToLength = scalar($callTo);
-      my $callFromLength = scalar($callFrom);
+#      my $callToLength = scalar($callTo);
+#      my $callFromLength = scalar($callFrom);
 		$query .= "
-        AND LEFT(items.cn_sort,$callFromLength, $callToLength) IN ('$callFrom','$callTo')
+        AND SUBSTRING(items.cn_sort,1,3) BETWEEN $callFrom AND $callTo'
 		";
 		} else {
         $query .= "
