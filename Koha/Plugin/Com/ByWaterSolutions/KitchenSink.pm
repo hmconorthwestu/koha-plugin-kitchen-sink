@@ -196,7 +196,7 @@ sub report_step2 {
 	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode')
 	";
 
-  if ( $copyrightYear ) {
+  if ( $copyrightYear > 0 ) {
       $query .= "
           AND biblio.copyrightdate < '$copyrightYear'
       ";
