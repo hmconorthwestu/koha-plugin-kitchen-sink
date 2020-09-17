@@ -10,7 +10,7 @@ use base qw(Koha::Plugins::Base);
 use C4::Context;
 use C4::Auth;
 use C4::Koha;
-#use Koha::DateUtils;
+use Koha::DateUtils;
 #use Koha::Libraries;
 #use Koha::Patron::Categories;
 #use Koha::AuthorisedValues;
