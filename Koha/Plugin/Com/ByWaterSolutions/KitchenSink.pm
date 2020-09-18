@@ -236,7 +236,7 @@ sub report_step2 {
 
   my $filename;
   if ( $output eq "csv" ) {
-      print $cgi->header( -attachment => 'circulation.csv' );
+      print $cgi->header( -type=>'text', -attachment => 'circulation.csv' );
       $filename = 'report-step2-csv.tt';
   }
   else {
