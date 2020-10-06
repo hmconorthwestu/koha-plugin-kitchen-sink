@@ -26,16 +26,15 @@ our $VERSION = "{VERSION}";
 
 ## Here is our metadata, some keys are required, some are optional
 our $metadata = {
-    name            => 'Example Kitchen-Sink Plugin',
-    author          => 'Kyle M Hall',
-    date_authored   => '2009-01-27',
+    name            => 'Weeding and Historical Charges Plugin',
+    author          => 'Hannah Co',
+    date_authored   => '2020-10-05',
     date_updated    => "1900-01-01",
-    minimum_version => '18.05.00.000',
+    minimum_version => '20.05.00.000',
     maximum_version => undef,
     version         => $VERSION,
-    description     => 'This plugin implements every available feature '
-      . 'of the plugin system and is meant '
-      . 'to be documentation and a starting point for writing your own plugins!',
+    description     => 'This plugin creates a custom report of item checkouts '
+      . 'that can be narrowed by a variety of parameters.',
 };
 
 ## This is the minimum code required for a plugin's 'new' method

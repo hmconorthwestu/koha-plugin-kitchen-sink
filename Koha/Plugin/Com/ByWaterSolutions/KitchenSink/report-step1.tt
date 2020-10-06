@@ -44,14 +44,8 @@
 
 		<br/><br/>
 
-		<p>Call Number Range (each field optional):</p>
-
-			<label>Start:</label>
+			<label>Call number begins with (Optional):</label>
 			<input id="call-from" name="callFrom" value="" type="text" /></td>
-		<br/>
-
-			<label>End:</label>
-			<input id="call-to" name="callTo" value="" type="text" /></td>
 		<br/>
 
 		<br/>
