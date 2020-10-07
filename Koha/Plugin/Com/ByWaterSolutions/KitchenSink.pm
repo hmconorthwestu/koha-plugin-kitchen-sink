@@ -198,13 +198,16 @@ sub report_step2 {
 
   if ( $location ) {
     my $query .= "
-  	  AND items.location = '$location')
+  	  AND items.location = '$location'
   	";
-  } else {
+  }
+  if ( $ccode ) {
       my $query .= "
-     AND items.ccode = '$ccode')
+     AND items.ccode = '$ccode'
      ";
   }
+
+  $query .= ")";
 
   if ( $copyrightYear > 0 ) {
       $query .= "
