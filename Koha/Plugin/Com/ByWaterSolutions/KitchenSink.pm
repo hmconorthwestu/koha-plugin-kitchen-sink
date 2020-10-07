@@ -188,12 +188,23 @@ sub report_step2 {
   my $checkouts   = $cgi->param('checkouts');
 
   my $query = "
-	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblio.copyrightdate as copyrightyear,items.issues AS checkouts
+	SELECT items.location,items.itemcallnumber AS callnumber,items.enumchron,biblio.copyrightdate as copyrightyear,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,items.barcode,biblio.title AS title,biblio.author,items.issues AS checkouts,items.itemnotes_nonpublic as notes
 	FROM items
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber)
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber)
-	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode')
-	";
+  WHERE items.homebranch = '$branch'
+  ";
+
+  if ( $location ) {
+    my $query .= "
+  	  AND items.ccode = '$location'
+  	";
+  }
+  if ( $ccode ) {
+    my $query .= "
+  	  AND items.ccode = '$ccode'
+  	";
+  }
 
   if ( $copyrightYear > 0 ) {
       $query .= "

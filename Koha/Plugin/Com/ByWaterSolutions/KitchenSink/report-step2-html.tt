@@ -16,6 +16,9 @@
 [% IF ccode %]
 	<h5>Collection: [% ccode %]</h5>
 [% END %]
+[% IF location %]
+	<h5>Shelving Location: [% location %]</h5>
+[% END %]
 
 <h5>Date Ran: [% date_ran | $KohaDates %]</h5>
 
@@ -23,10 +26,14 @@
   <thead>
     <tr>
       <th>Call Number</th>
-      <th>Title</th>
+      <th>Enumeration/Chronology</th>
       <th>copyright year</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Barcode</th>
       <th>Last checkout date</th>
       <th>Number checkouts</th>
+      <th>Item Notes</th>
     </tr>
   </thead>
 
@@ -34,10 +41,14 @@
     [% FOREACH r IN results_loop %]
       <tr>
         <td>[% r.callnumber %]</td>
-        <td>[% r.title %]</td>
+        <td>[% r.enumchron %]</td>
         <td>[% r.biblio.copyrightdate %]</td>
+        <td>[% r.title %]</td>
+        <th>[% r.author %]</th>
+        <th>[% r.barcode %]</th>
         <td>[% r.lastcheckout %]</td>
         <td>[% r.checkouts %]</td>
+        <td>[% r.notes %]</td>
       </tr>
     [% END %]
   </tbody>

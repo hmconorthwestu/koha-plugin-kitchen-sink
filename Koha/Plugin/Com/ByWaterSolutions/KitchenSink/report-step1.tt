@@ -44,6 +44,16 @@
 
 		<br/><br/>
 
+    <label>Shelving Location</label>
+		<select name="location">
+			<option value="%">Any</option>
+			[% FOREACH location IN AuthorisedValues.GetAuthValueDropbox( 'LOC') %]
+				<option value="[% location.opac_description %]">[% location.opac_description %]</option>
+			[% END %]
+		</select>
+
+		<br/><br/>
+
 			<label>Call number begins with (Optional):</label>
 			<input id="call-from" name="callFrom" value="" type="text" /></td>
 		<br/>
