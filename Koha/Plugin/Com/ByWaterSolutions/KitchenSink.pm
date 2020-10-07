@@ -180,6 +180,7 @@ sub report_step2 {
 
   my $branch = $cgi->param('branch');
   my $ccode = $cgi->param('ccode');
+  my $location = $cgi->param('location');
   my $output = $cgi->param('output');
 
   my $callFrom   = $cgi->param('callFrom');
