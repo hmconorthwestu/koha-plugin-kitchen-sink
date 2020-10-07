@@ -196,7 +196,7 @@ sub report_step2 {
   WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode'
   ";
 
-  if ( $location ) {
+  if ( $location > 0 ) {
     my $query .= "
   	  AND items.location = '$location'
   	";

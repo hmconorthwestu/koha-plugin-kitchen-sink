@@ -46,7 +46,7 @@
 
     <label>Shelving Location</label>
 		<select name="location">
-			<option value="%">Any</option>
+			<option value="">Any</option>
 			[% FOREACH location IN AuthorisedValues.GetAuthValueDropbox( 'LOC') %]
 				<option value="[% location.opac_description %]">[% location.opac_description %]</option>
 			[% END %]
