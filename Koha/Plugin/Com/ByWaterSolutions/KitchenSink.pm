@@ -193,18 +193,17 @@ sub report_step2 {
 	FROM items
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber)
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber)
-  WHERE items.homebranch = '$branch'
+  WHERE (items.homebranch = '$branch'
   ";
 
   if ( $location ) {
     my $query .= "
-  	  AND items.ccode = '$location'
+  	  AND items.location = '$location')
   	";
-  }
-  if ( $ccode ) {
-    my $query .= "
-  	  AND items.ccode = '$ccode'
-  	";
+  } else {
+      my $query .= "
+     AND items.ccode = '$ccode')
+     ";
   }
 
   if ( $copyrightYear > 0 ) {

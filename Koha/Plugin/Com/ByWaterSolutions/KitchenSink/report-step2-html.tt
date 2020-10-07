@@ -44,8 +44,8 @@
         <td>[% r.enumchron %]</td>
         <td>[% r.biblio.copyrightdate %]</td>
         <td>[% r.title %]</td>
-        <th>[% r.author %]</th>
-        <th>[% r.barcode %]</th>
+        <td>[% r.author %]</td>
+        <td>[% r.barcode %]</td>
         <td>[% r.lastcheckout %]</td>
         <td>[% r.checkouts %]</td>
         <td>[% r.notes %]</td>
