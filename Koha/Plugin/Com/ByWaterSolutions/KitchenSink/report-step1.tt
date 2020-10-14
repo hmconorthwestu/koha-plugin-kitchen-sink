@@ -9,7 +9,7 @@
 [% INCLUDE 'header.inc' %]
 [% INCLUDE 'cat-search.inc' %]
 
-<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Kitchen Sink &rsaquo; Report &rsaquo; Patron List</div>
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Weeding and Historical Usage</div>
 
 <div id="doc3">
 	<h3>Usage Reporting</h3>
@@ -19,8 +19,8 @@
                 <input type="hidden" name="class" value="[% CLASS %]"/>
                 <input type="hidden" name="method" value="[% METHOD %]"/>
 
-		<label>Select Library:</label>
-		<select name="branch">
+		<label class="NU_weeding_label">Select Library</label>
+		<select class="NU_weeding_select" name="branch">
 			[% FOREACH library IN libraries %]
 				<option	value="[% library.branchcode %]">
 					[% library.branchname %]
@@ -30,8 +30,8 @@
 
 		<br/><br/>
 
-		<label>Collection</label>
-		<select name="ccode">
+		<label class="NU_weeding_label">Collection</label>
+		<select class="NU_weeding_select" name="ccode">
 			<option value="%">Any</option>
 			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
 				[% IF collection.opac_description == "General" %]
@@ -44,30 +44,34 @@
 
 		<br/><br/>
 
-		<p>Call Number Range (each field optional):</p>
-
-			<label>Start:</label>
-			<input id="call-from" name="callFrom" value="" type="text" /></td>
-		<br/>
-
-			<label>End:</label>
-			<input id="call-to" name="callTo" value="" type="text" /></td>
-		<br/>
-
-		<br/>
-
-		<label>Published before:</label>
-		<table class="split-date-wrap" border="0" cellpadding="0" cellspacing="0">
-			<tr>
-				<td><input size="4" id="copyrightYear" name="copyrightYear" value="" maxlength="4" type="text" /></td>
-			</tr>
-
-		</table>
+    <label class="NU_weeding_label">Shelving Location</label>
+		<select class="NU_weeding_select" name="location">
+			<option value="%">Any</option>
+			[% FOREACH location IN AuthorisedValues.GetAuthValueDropbox( 'LOC') %]
+				<option value="[% location.opac_description %]">[% location.opac_description %]</option>
+			[% END %]
+		</select>
 
 		<br/><br/>
 
-		<label for="output">Output Data to:</label>
-		<select name="output">
+			<label class="NU_weeding_label">Call number begins with (Optional)</label>
+			<input id="call-from" name="callFrom" value="" type="text" /></td>
+		<br/>
+
+		<br/>
+
+		<label class="NU_weeding_label">Published before (Optional)</label>
+		<input size="4" id="copyrightYear" name="copyrightYear" value="" maxlength="4" type="text" />
+
+		<br/><br/>
+
+    <label class="NU_weeding_label">Max checkouts (Optional)</label>
+		<input size="4" id="weedingcheckouts" name="weedingcheckouts" value="" maxlength="4" type="text" />
+
+		<br/><br/>
+
+		<label class="NU_weeding_label" for="output">Output Data to</label>
+		<select class="NU_weeding_select" name="output">
 			<option value="screen">Display List</option>
 			<option value="csv">CSV File</option>
 		</select>
@@ -77,5 +81,8 @@
 		<input type="submit" value="Run Report" />
 
 	</form>
+  [% IF test %]
+  [% r.test %]
+  [% END %]
 
 [% INCLUDE 'intranet-bottom.inc' %]

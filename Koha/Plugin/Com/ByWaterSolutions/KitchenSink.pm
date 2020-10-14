@@ -20,22 +20,22 @@ use Cwd qw(abs_path);
 use Mojo::JSON qw(decode_json);;
 use URI::Escape qw(uri_unescape);
 use LWP::UserAgent;
+use Data::Dumper;
 
 ## Here we set our plugin version
-our $VERSION = "{VERSION}";
+our $VERSION = "v0.0.68";
 
 ## Here is our metadata, some keys are required, some are optional
 our $metadata = {
-    name            => 'Example Kitchen-Sink Plugin',
-    author          => 'Kyle M Hall',
-    date_authored   => '2009-01-27',
-    date_updated    => "1900-01-01",
-    minimum_version => '18.05.00.000',
+    name            => 'Weeding and Historical Charges Plugin',
+    author          => 'Hannah Co',
+    date_authored   => '2020-10-05',
+    date_updated    => "2020-10-07",
+    minimum_version => '20.05.00.000',
     maximum_version => undef,
     version         => $VERSION,
-    description     => 'This plugin implements every available feature '
-      . 'of the plugin system and is meant '
-      . 'to be documentation and a starting point for writing your own plugins!',
+    description     => 'This plugin creates a custom report of item checkouts '
+      . 'that can be narrowed by a variety of parameters.',
 };
 
 ## This is the minimum code required for a plugin's 'new' method
@@ -161,13 +161,16 @@ sub report_step1 {
 
   my $template = $self->get_template({ file => 'report-step1.tt' });
 	my $av = ( category => 'ccode' );
+  my $av2 = ( category => 'LOC' );
 
   my @libraries = Koha::Libraries->search;
   my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
 	my @collections = C4::Koha::GetAuthorisedValues([$av]);
+  my @locations = C4::Koha::GetAuthorisedValues([$av2]);
   $template->param(
       libraries => \@libraries,
       collections => \@collections,
+      locations => \@locations,
   );
 
   $self->output_html( $template->output() );
@@ -181,20 +184,35 @@ sub report_step2 {
 
   my $branch = $cgi->param('branch');
   my $ccode = $cgi->param('ccode');
+  my $location = $cgi->param('location');
   my $output = $cgi->param('output');
 
   my $callFrom   = $cgi->param('callFrom');
   my $callTo   = $cgi->param('callTo');
   my $copyrightYear  = $cgi->param('copyrightYear');
-  my $checkouts   = $cgi->param('checkouts');
+  my $checkouts   = $cgi->param('weedingcheckouts');
 
   my $query = "
-	SELECT items.itemcallnumber AS callnumber,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,biblio.title AS title,biblio.copyrightdate as copyrightyear,items.issues AS checkouts
+	SELECT items.homebranch AS homebranch, items.ccode AS collection, items.location AS location,items.itemcallnumber AS callnumber,items.enumchron,biblio.copyrightdate as copyrightyear,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,items.barcode,biblio.title AS title,biblio.author,items.issues AS checkouts,items.itemnotes_nonpublic as notes
 	FROM items
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber)
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber)
-	WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode')
-	";
+  WHERE (items.homebranch = '$branch'
+  ";
+
+  unless ( $ccode eq '%' ) {
+    $query .= "
+  	  AND items.ccode = '$ccode'
+  	";
+  }
+
+  unless ( $location eq '%' ) {
+    $query .= "
+  	  AND items.location = '$location'
+  	";
+  }
+
+  $query .= ")";
 
   if ( $copyrightYear > 0 ) {
       $query .= "
@@ -202,7 +220,7 @@ sub report_step2 {
       ";
   }
 
-  if ( $checkouts ) {
+  unless ( $checkouts eq undef ) {
       $query .= "
           AND items.issues <= '$checkouts'
       ";
@@ -223,7 +241,7 @@ sub report_step2 {
   }
 
 	$query .= "
-	ORDER BY items.cn_source, items.cn_sort ASC
+	ORDER BY items.cn_source, items.cn_sort, items.enumchron ASC
 	";
 
   my $sth = $dbh->prepare($query);
@@ -236,7 +254,7 @@ sub report_step2 {
 
   my $filename;
   if ( $output eq "csv" ) {
-      print $cgi->header( -type=>'text', -attachment => 'circulation.csv' );
+      print $cgi->header( -type=>'text', -attachment => 'Historical Usage Report.csv' );
       $filename = 'report-step2-csv.tt';
   }
   else {
@@ -255,6 +273,12 @@ sub report_step2 {
   unless ( $ccode eq '%' ) {
       $template->param( ccode => $ccode );
   }
+  unless ( $location eq '%' ) {
+      $template->param( location => $location );
+  }
+
+  my $test = Dumper(\@results);
+  $template->param( test => $test );
 
   print $template->output();
 }
