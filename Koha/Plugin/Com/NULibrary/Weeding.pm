@@ -23,7 +23,7 @@ use LWP::UserAgent;
 use Data::Dumper;
 
 ## Here we set our plugin version
-our $VERSION = "v0.0.75";
+our $VERSION = "v0.0.80";
 
 ## Here is our metadata, some keys are required, some are optional
 our $metadata = {
@@ -95,9 +95,6 @@ sub intranet_head {
 sub intranet_js {
     my ( $self ) = @_;
 
-    return q|
-        <script>console.log("Thanks for testing the kitchen sink plugin!");</script>
-    |;
 }
 
 ## This method allows you to add new html elements to the catalogue toolbar.
