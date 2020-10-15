@@ -34,10 +34,10 @@
 		<select class="NU_weeding_select" name="ccode">
 			<option value="%">Any</option>
 			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
-				[% IF collection.opac_description == "General" %]
-				<option value="[% collection.opac_description %]" selected="selected">[% collection.opac_description %]</option>
+				[% IF collection.authorised_value == "General" %]
+				<option value="[% collection.authorised_value %]" selected="selected">[% collection.opac_description %]</option>
 				[% ELSE %]
-				<option value="[% collection.opac_description %]">[% collection.opac_description %]</option>
+				<option value="[% collection.authorised_value %]">[% collection.opac_description %]</option>
 				[% END %]
 			[% END %]
 		</select>
@@ -48,7 +48,7 @@
 		<select class="NU_weeding_select" name="location">
 			<option value="%">Any</option>
 			[% FOREACH location IN AuthorisedValues.GetAuthValueDropbox( 'LOC') %]
-				<option value="[% location.opac_description %]">[% location.opac_description %]</option>
+				<option value="[% location.authorised_value %]">[% location.opac_description %]</option>
 			[% END %]
 		</select>
 
