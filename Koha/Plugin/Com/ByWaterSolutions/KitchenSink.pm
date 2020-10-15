@@ -23,7 +23,7 @@ use LWP::UserAgent;
 use Data::Dumper;
 
 ## Here we set our plugin version
-our $VERSION = "v0.0.68";
+our $VERSION = "v0.0.73";
 
 ## Here is our metadata, some keys are required, some are optional
 our $metadata = {
