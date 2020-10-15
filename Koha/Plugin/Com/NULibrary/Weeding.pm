@@ -81,9 +81,6 @@ sub intranet_head {
 
     return q|
         <style>
-          body {
-            background-color: orange;
-          }
         </style>
     |;
 }
@@ -104,9 +101,9 @@ sub intranet_catalog_biblio_enhancements_toolbar_button {
     my ( $self ) = @_;
 
     return q|
-        <a class="btn btn-default btn-sm" onclick="alert('Peace and long life');">
+        <a class="btn btn-default btn-sm">
           <i class="fa fa-hand-spock-o" aria-hidden="true"></i>
-          Live long and prosper
+          Historical Charges Report
         </a>
     |;
 }
@@ -118,13 +115,6 @@ sub intranet_catalog_biblio_enhancements_toolbar_button {
 sub install() {
     my ( $self, $args ) = @_;
 
-    my $table = $self->get_qualified_table_name('mytable');
-
-    return C4::Context->dbh->do( "
-        CREATE TABLE IF NOT EXISTS $table (
-            `borrowernumber` INT( 11 ) NOT NULL
-        ) ENGINE = INNODB;
-    " );
 }
 
 ## This is the 'upgrade' method. It will be triggered when a newer version of a
@@ -144,9 +134,6 @@ sub upgrade {
 sub uninstall() {
     my ( $self, $args ) = @_;
 
-    my $table = $self->get_qualified_table_name('mytable');
-
-    return C4::Context->dbh->do("DROP TABLE IF EXISTS $table");
 }
 
 ## These are helper functions that are specific to this plugin
