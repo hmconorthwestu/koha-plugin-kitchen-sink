@@ -1,0 +1,61 @@
+[% USE AuthorisedValues %]
+[% INCLUDE 'doc-head-open.inc' %]
+ <title>Koha Historical Usage Report</title>
+ <script type="text/javascript" src="[% PLUGIN_PATH %]/datepicker/js/datepicker.js"></script>
+ <link href="[% PLUGIN_PATH %]/datepicker/css/datepicker.css" rel="stylesheet" type="text/css" />
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Inventory Tracking</div>
+
+<div id="doc3">
+	<h3>Inventory Tracking</h3>
+
+        <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
+	<form method="get">
+                <input type="hidden" name="class" value="[% CLASS %]"/>
+                <input type="hidden" name="method" value="[% METHOD %]"/>
+
+		<label>Select Library:</label>
+		<select name="branch">
+			[% FOREACH library IN libraries %]
+				<option	value="[% library.branchcode %]">
+					[% library.branchname %]
+				</option>
+			[% END %]
+		</select>
+
+		<br/><br/>
+
+		<label>Collection</label>
+		<select name="ccode" onchange='this.form.submit()'>
+			<option value="%">Any</option>
+			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
+				[% IF collection.opac_description == "General" %]
+				<option value="[% collection.opac_description %]" selected="selected">[% collection.opac_description %]</option>
+				[% ELSE %]
+				<option value="[% collection.opac_description %]">[% collection.opac_description %]</option>
+				[% END %]
+			[% END %]
+		</select>
+
+		<br/><br/>
+
+    <label>Shelving Location</label>
+		<select name="location" onchange='this.form.submit()'>
+			<option value="">Any</option>
+			[% FOREACH location IN AuthorisedValues.GetAuthValueDropbox( 'LOC') %]
+				<option value="[% location.opac_description %]">[% location.opac_description %]</option>
+			[% END %]
+		</select>
+
+		<br/><br/>
+
+		<input type="submit" value="Run Report" />
+
+	</form>
+
+[% INCLUDE 'intranet-bottom.inc' %]
