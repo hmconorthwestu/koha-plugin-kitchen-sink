@@ -1,8 +1,8 @@
 {
-  "name": "koha-plugin-inventory",
+  "name": "koha-plugin-weeding",
   "version": "2.1.28",
   "previous_version": "2.1.27",
-  "description": "Koha Inventory Plugin",
+  "description": "Koha Weeding and Historical Charges Plugin",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-cli": "^1.2.2",

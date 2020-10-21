@@ -26,15 +26,15 @@ our $VERSION = "{VERSION}";
 
 ## Here is our metadata, some keys are required, some are optional
 our $metadata = {
-    name            => 'Weeding and Inventory Plugin',
+    name            => 'Weeding and Historical Charges Plugin',
     author          => 'Hannah Co',
     date_authored   => '2020-10-05',
     date_updated    => "1900-01-01",
     minimum_version => '20.05.00.000',
     maximum_version => undef,
     version         => $VERSION,
-    description     => 'This plugin creates a custom report of item inventory '
-      . 'to track shelf reading progress and identify items not found while shelf reading.',
+    description     => 'This plugin creates a custom report of item checkouts '
+      . 'that can be narrowed by a variety of parameters.',
 };
 
 ## This is the minimum code required for a plugin's 'new' method
@@ -78,6 +78,13 @@ sub report {
 sub intranet_head {
     my ( $self ) = @_;
 
+    return q|
+        <style>
+          body {
+            background-color: orange;
+          }
+        </style>
+    |;
 }
 
 ## If your plugin needs to add some javascript in the staff intranet, you'll want
@@ -87,6 +94,9 @@ sub intranet_head {
 sub intranet_js {
     my ( $self ) = @_;
 
+    return q|
+        <script>console.log("Thanks for testing the kitchen sink plugin!");</script>
+    |;
 }
 
 ## This method allows you to add new html elements to the catalogue toolbar.
@@ -95,6 +105,12 @@ sub intranet_js {
 sub intranet_catalog_biblio_enhancements_toolbar_button {
     my ( $self ) = @_;
 
+    return q|
+        <a class="btn btn-default btn-sm" onclick="alert('Peace and long life');">
+          <i class="fa fa-hand-spock-o" aria-hidden="true"></i>
+          Live long and prosper
+        </a>
+    |;
 }
 
 ## This is the 'install' method. Any database tables or other setup that should
@@ -104,6 +120,13 @@ sub intranet_catalog_biblio_enhancements_toolbar_button {
 sub install() {
     my ( $self, $args ) = @_;
 
+    my $table = $self->get_qualified_table_name('mytable');
+
+    return C4::Context->dbh->do( "
+        CREATE TABLE IF NOT EXISTS $table (
+            `borrowernumber` INT( 11 ) NOT NULL
+        ) ENGINE = INNODB;
+    " );
 }
 
 ## This is the 'upgrade' method. It will be triggered when a newer version of a
@@ -123,6 +146,9 @@ sub upgrade {
 sub uninstall() {
     my ( $self, $args ) = @_;
 
+    my $table = $self->get_qualified_table_name('mytable');
+
+    return C4::Context->dbh->do("DROP TABLE IF EXISTS $table");
 }
 
 ## These are helper functions that are specific to this plugin

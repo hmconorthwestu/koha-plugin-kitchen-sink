@@ -9,10 +9,10 @@
 [% INCLUDE 'header.inc' %]
 [% INCLUDE 'cat-search.inc' %]
 
-<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Inventory Tracking</div>
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Kitchen Sink &rsaquo; Report &rsaquo; Patron List</div>
 
 <div id="doc3">
-	<h3>Inventory Tracking</h3>
+	<h3>Usage Reporting</h3>
 
         <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
 	<form method="get">
@@ -31,7 +31,7 @@
 		<br/><br/>
 
 		<label>Collection</label>
-		<select name="ccode" onchange='this.form.submit()'>
+		<select name="ccode">
 			<option value="%">Any</option>
 			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
 				[% IF collection.opac_description == "General" %]
@@ -45,11 +45,35 @@
 		<br/><br/>
 
     <label>Shelving Location</label>
-		<select name="location" onchange='this.form.submit()'>
+		<select name="location">
 			<option value="">Any</option>
 			[% FOREACH location IN AuthorisedValues.GetAuthValueDropbox( 'LOC') %]
 				<option value="[% location.opac_description %]">[% location.opac_description %]</option>
 			[% END %]
+		</select>
+
+		<br/><br/>
+
+			<label>Call number begins with (Optional):</label>
+			<input id="call-from" name="callFrom" value="" type="text" /></td>
+		<br/>
+
+		<br/>
+
+		<label>Published before:</label>
+		<table class="split-date-wrap" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td><input size="4" id="copyrightYear" name="copyrightYear" value="" maxlength="4" type="text" /></td>
+			</tr>
+
+		</table>
+
+		<br/><br/>
+
+		<label for="output">Output Data to:</label>
+		<select name="output">
+			<option value="screen">Display List</option>
+			<option value="csv">CSV File</option>
 		</select>
 
 		<br/><br/>
