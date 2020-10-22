@@ -1,6 +1,6 @@
 [% USE AuthorisedValues %]
 [% INCLUDE 'doc-head-open.inc' %]
- <title>Koha Historical Usage Report</title>
+ <title>Koha Inventory Plugin</title>
  <script type="text/javascript" src="[% PLUGIN_PATH %]/datepicker/js/datepicker.js"></script>
  <link href="[% PLUGIN_PATH %]/datepicker/css/datepicker.css" rel="stylesheet" type="text/css" />
 [% INCLUDE 'doc-head-close.inc' %]
@@ -9,15 +9,26 @@
 [% INCLUDE 'header.inc' %]
 [% INCLUDE 'cat-search.inc' %]
 
-<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Kitchen Sink &rsaquo; Report &rsaquo; Patron List</div>
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Inventory</div>
 
 <div id="doc3">
-	<h3>Usage Reporting</h3>
+	<h3>Inventory</h3>
 
         <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
 	<form method="get">
                 <input type="hidden" name="class" value="[% CLASS %]"/>
                 <input type="hidden" name="method" value="[% METHOD %]"/>
+
+    <label>Time Range:</label>
+		<select name="timerange">
+      [% IF timerange %]
+        <option value="6" selected="selected">6 Months</option>
+        <option value="12">12 Months</option>
+      [% ELSE %]
+      <option value="[% timerange.value %]">[% timerange.display %]</option>
+      <option value="12">12 Months</option>
+      [% END %]
+		</select>
 
 		<label>Select Library:</label>
 		<select name="branch">
@@ -28,7 +39,7 @@
 			[% END %]
 		</select>
 
-		<br/><br/>
+		<br/>
 
 		<label>Collection</label>
 		<select name="ccode">

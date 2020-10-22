@@ -1,4 +1,4 @@
-package Koha::Plugin::Com::ByWaterSolutions::KitchenSink;
+package Koha::Plugin::Com::NULibrary::Inventory;
 
 ## It's good practice to use Modern::Perl
 use Modern::Perl;
@@ -154,23 +154,25 @@ sub uninstall() {
 ## These are helper functions that are specific to this plugin
 ## You can manage the control flow of your plugin any
 ## way you wish, but I find this is a good approach
-sub report_step1 {
+
+sub inventory_step1 {
   my ( $self, $args ) = @_;
   my $cgi = $self->{'cgi'};
 
-  my $template = $self->get_template({ file => 'report-step1.tt' });
+  my $template = $self->get_template({ file => 'inventory-step1.tt' });
 	my $av = ( category => 'ccode' );
 
   my @libraries = Koha::Libraries->search;
   my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
-	my @collections = C4::Koha::GetAuthorisedValues([$av]);
+  my @collections = C4::Koha::GetAuthorisedValues([$av]);
   $template->param(
       libraries => \@libraries,
-      collections => \@collections,
+      collections => \@collections;
   );
 
   $self->output_html( $template->output() );
 }
+
 
 sub report_step2 {
   my ( $self, $args ) = @_;
@@ -178,56 +180,30 @@ sub report_step2 {
 
   my $dbh = C4::Context->dbh;
 
+  my $timerange = $cgi->param('timerange');
   my $branch = $cgi->param('branch');
   my $ccode = $cgi->param('ccode');
-  my $location = $cgi->param('location');
-  my $output = $cgi->param('output');
 
-  my $callFrom   = $cgi->param('callFrom');
-  my $callTo   = $cgi->param('callTo');
-  my $copyrightYear  = $cgi->param('copyrightYear');
-  my $checkouts   = $cgi->param('checkouts');
+  my $barcode   = $cgi->param('bc');
+
+  my $date = dt_from_string();
+  $date = output_pref ( { dt => $date, dateformat => 'iso' } );
+
 
   my $query = "
-	SELECT items.location,items.itemcallnumber AS callnumber,items.enumchron,biblio.copyrightdate as copyrightyear,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,items.barcode,biblio.title AS title,biblio.author,items.issues AS checkouts,items.itemnotes_nonpublic as notes
+	SELECT items.ccode,items.location,items.cn_source,items.cn_sort,items.itemcallnumber AS callnumber,items.enumchron,items.barcode,biblio.title AS title,biblio.author
 	FROM items
 	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber)
 	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber)
   WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode'
   ";
 
-  if ( $location > 0 ) {
-    my $query .= "
-  	  AND items.location = '$location'
-  	";
-  }
-
   $query .= ")";
 
-  if ( $copyrightYear > 0 ) {
-      $query .= "
-          AND biblio.copyrightdate < '$copyrightYear'
-      ";
-  }
+  if ( $timerange eq '6' ) {
 
-  if ( $checkouts ) {
-      $query .= "
-          AND items.issues <= '$checkouts'
-      ";
-  }
+  } elsif ( $timerange eq '12' ) {
 
-	if ( $callFrom ) {
-		if ( $callTo ) {
-#      my $callToLength = scalar($callTo);
-#      my $callFromLength = scalar($callFrom);
-		$query .= "
-        AND SUBSTRING(items.cn_sort,1,2) BETWEEN '$callFrom' AND CONCAT('$callTo', 'ZZZ%')
-		";
-		} else {
-        $query .= "
-        AND items.cn_sort LIKE CONCAT('$callFrom', '%')
-		";
-		}
   }
 
 	$query .= "
