@@ -272,7 +272,7 @@ sub report_step2 {
 
   my $filename;
 
-  my $template = $self->get_template({ file => inventory-step2.tt });
+  my $template = $self->get_template({ file => 'inventory-step2.tt' });
 
   $template->param(
       date_ran     => dt_from_string(),
