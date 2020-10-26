@@ -187,7 +187,6 @@ sub inventory_step1 {
   my $dbh = C4::Context->dbh;
 
   my $template = $self->get_template({ file => 'inventory-step1.tt' });
-	my $av = ( category => 'ccode' );
 
   my $query = "SELECT xall.ccode, complete, total FROM
   (SELECT ccode, COUNT(DISTINCT barcode) total
@@ -219,7 +218,7 @@ sub inventory_step1 {
   my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
   my @collections = C4::Koha::GetAuthorisedValues([$av]);
   $template->param(
-      print => $print;
+      print => $print,
       libraries => \@libraries,
       results => \@results,
   );
