@@ -31,7 +31,7 @@
   		</select>
       [% END %]
 
-      [% if results %]
+      [% IF results %]
         [% FOREACH r IN results %]
           <table>
             <tr>
@@ -41,7 +41,7 @@
           </table>
         [% END %]
       [% END %]
-      
+
     <label>Time Range:</label>
 		<select name="timerange">
       [% IF timerange %]
