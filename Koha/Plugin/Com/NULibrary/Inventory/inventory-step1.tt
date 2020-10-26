@@ -45,11 +45,11 @@
     <label>Time Range:</label>
 		<select name="timerange">
       [% IF timerange %]
+        <option value="[% timerange.value %]">[% timerange.display %]</option>
+        <option value="12">12 Months</option>      
+      [% ELSE %]
         <option value="6" selected="selected">6 Months</option>
         <option value="12">12 Months</option>
-      [% ELSE %]
-      <option value="[% timerange.value %]">[% timerange.display %]</option>
-      <option value="12">12 Months</option>
       [% END %]
 		</select>
 
