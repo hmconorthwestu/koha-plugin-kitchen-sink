@@ -64,10 +64,14 @@ sub report {
     my $cgi = $self->{'cgi'};
 
     unless ( $cgi->param('output') ) {
-        $self->report_step1();
+        $self->inventory_step1();
     }
     else {
-        $self->report_step2();
+      if ( $cgi->param('timerange') & !$cgi->param('ccode') ) {
+        $self->inventory_step1();
+      } else {
+        $self->inventory_step2();
+      }
     }
 }
 
@@ -159,15 +163,65 @@ sub inventory_step1 {
   my ( $self, $args ) = @_;
   my $cgi = $self->{'cgi'};
 
+  my $print;
+
+  my $today = DateTime->now;
+  my $start_date;
+
+  my $timerange = $cgi->param('timerange');
+
+  if ( $timerange ) {
+    $start_date = $today - DateTime::Duration->new( months => $timerange );
+  } elsif ( undef($timerange) ) {
+    $start_date = $today - DateTime::Duration->new( months => 6 );
+  } else {
+    $print = "timerange not handled, set to " . $timerange . "<br/>";
+  }
+
+  my $branch = $cgi->param('branch');
+
+  unless ( $branch ) {
+    $branch = "KIRKLAND";
+  }
+
+  my $dbh = C4::Context->dbh;
+
   my $template = $self->get_template({ file => 'inventory-step1.tt' });
 	my $av = ( category => 'ccode' );
+
+  my $query = "SELECT xall.ccode, complete, total FROM
+  (SELECT ccode, COUNT(DISTINCT barcode) total
+  FROM items
+  WHERE withdrawn != '1'
+    AND library = $branch
+  GROUP BY ccode
+  ORDER BY ccode) xall
+  LEFT JOIN (SELECT ccode, COUNT(DISTINCT barcode) complete
+  FROM items
+  WHERE (datelastseen > $start_date)
+    AND withdrawn != '1'
+    AND library = $branch
+  GROUP BY ccode
+  ORDER BY ccode) done
+  ON xall.ccode = done.ccode";
+
+  my $sth = $dbh->prepare($query);
+ $sth->execute();
+
+ my @results;
+ while ( my $row = $sth->fetchrow_hashref() ) {
+    $row->{'percent'} = $row->{'complete'}/$row->{'total'}*100;
+     push( @results, $row );
+ }
+
 
   my @libraries = Koha::Libraries->search;
   my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
   my @collections = C4::Koha::GetAuthorisedValues([$av]);
   $template->param(
+      print => $print;
       libraries => \@libraries,
-      collections => \@collections;
+      results => \@results,
   );
 
   $self->output_html( $template->output() );
@@ -219,16 +273,8 @@ sub report_step2 {
   }
 
   my $filename;
-  if ( $output eq "csv" ) {
-      print $cgi->header( -type=>'text', -attachment => 'circulation.csv' );
-      $filename = 'report-step2-csv.tt';
-  }
-  else {
-      print $cgi->header();
-      $filename = 'report-step2-html.tt';
-  }
 
-  my $template = $self->get_template({ file => $filename });
+  my $template = $self->get_template({ file => inventory-step2.tt });
 
   $template->param(
       date_ran     => dt_from_string(),
@@ -240,7 +286,7 @@ sub report_step2 {
       $template->param( ccode => $ccode );
   }
 
-  print $template->output();
+  $self->output_html( $template->output() );
 }
 
 1;
