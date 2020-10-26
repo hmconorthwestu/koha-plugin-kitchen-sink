@@ -216,7 +216,6 @@ sub inventory_step1 {
 
   my @libraries = Koha::Libraries->search;
   my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
-  my @collections = C4::Koha::GetAuthorisedValues([$av]);
   $template->param(
       print => $print,
       libraries => \@libraries,
