@@ -32,11 +32,13 @@
       [% END %]
 
       [% IF results %]
-        [% FOREACH r IN results %]
+      [% results %]
+        [% FOREACH row IN results %]
+        [% row %]
           <table>
             <tr>
-              <td><a href="?timerange=[% timerange %]&branch=[% branch %]&ccode=[% r.ccode %]">[% r.ccode %]</a></td>
-              <td>[% r.percent %]</td>
+              <td><a href="?timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.xall.ccode %]">[% xall.row.ccode %]</a></td>
+              <td>[% row.percent %]</td>
             </tr>
           </table>
         [% END %]
@@ -45,8 +47,12 @@
     <label>Time Range:</label>
 		<select name="timerange">
       [% IF timerange %]
-        <option value="[% timerange.value %]">[% timerange.display %]</option>
-        <option value="12">12 Months</option>      
+        <option value="[% timerange %]" selected="selected">[% timerange %] Months</option>
+          [% IF timerange == 6 %]
+            <option value="12">12 Months</option>
+          [% ELSE %]
+            <option value="6">6 Months</option>
+          [% END %]
       [% ELSE %]
         <option value="6" selected="selected">6 Months</option>
         <option value="12">12 Months</option>
