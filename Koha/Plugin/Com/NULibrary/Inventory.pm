@@ -26,15 +26,15 @@ our $VERSION = "{VERSION}";
 
 ## Here is our metadata, some keys are required, some are optional
 our $metadata = {
-    name            => 'Weeding and Historical Charges Plugin',
+    name            => 'Inventory Plugin',
     author          => 'Hannah Co',
     date_authored   => '2020-10-05',
     date_updated    => "1900-01-01",
     minimum_version => '20.05.00.000',
     maximum_version => undef,
     version         => $VERSION,
-    description     => 'This plugin creates a custom report of item checkouts '
-      . 'that can be narrowed by a variety of parameters.',
+    description     => 'This plugin tracks inventory progress over time '
+      . 'and provides lists of items not scanned.',
 };
 
 ## This is the minimum code required for a plugin's 'new' method
