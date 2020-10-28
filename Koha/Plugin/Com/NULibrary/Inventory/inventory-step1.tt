@@ -29,7 +29,6 @@
   				</option>
   			[% END %]
   		</select>
-      [% END %]
 
       <label>Time Range:</label>
       <select name="timerange">
