@@ -209,7 +209,7 @@ sub inventory_step1 {
 
  my @results;
  while ( my $row = $sth->fetchrow_hashref() ) {
-    $row{'percent'} = $row{'complete'}/$row{'total'}*100;
+    $row->{'percent'} = $row->{'complete'}/$row->{'total'}*100;
      push( @results, $row );
  }
 
