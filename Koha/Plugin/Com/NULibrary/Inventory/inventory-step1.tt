@@ -50,9 +50,7 @@
     </form>
 
       [% IF results %]
-      [% results %]
         [% FOREACH row IN results %]
-        [% row %]
           <table>
             <tr>
               <td><a href="?timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]">[% row.ccode %]</a></td>
