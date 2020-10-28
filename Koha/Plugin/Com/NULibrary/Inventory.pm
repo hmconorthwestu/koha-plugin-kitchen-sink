@@ -192,14 +192,14 @@ sub inventory_step1 {
   (SELECT ccode, COUNT(DISTINCT barcode) total
   FROM items
   WHERE withdrawn <> '1'
-    AND homebranch = $branch
+    AND homebranch = 'KIRKLAND'
   GROUP BY ccode
   ORDER BY ccode) xall
   LEFT JOIN (SELECT ccode, COUNT(DISTINCT barcode) complete
   FROM items
-  WHERE (datelastseen > $start_date)
+  WHERE (datelastseen > '2020-10-01')
     AND withdrawn <> '1'
-    AND homebranch = $branch
+    AND homebranch = 'KIRKLAND'
   GROUP BY ccode
   ORDER BY ccode) done
   ON xall.ccode = done.ccode";
@@ -209,13 +209,10 @@ sub inventory_step1 {
 
  my @results;
  while ( my $row = $sth->fetchrow_hashref() ) {
-    $row->{'percent'} = $row->{'complete'}/$row->{'total'}*100;
+    $row{'percent'} = $row{'complete'}/$row{'total'}*100;
      push( @results, $row );
  }
 
-
-  my @libraries = Koha::Libraries->search;
-  my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
   $template->param(
       print => $print,
       timerange => $timerange,
