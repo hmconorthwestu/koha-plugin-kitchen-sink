@@ -208,8 +208,10 @@ sub inventory_step1 {
  $sth->execute();
 
  my @results;
- while ( my $row = $sth->fetchrow_hashref() ) {
-    $row->{'percent'} = $row->{'complete'}/$row->{'total'}*100;
+ while ( my $r = $sth->fetchrow_hashref() ) {
+   my $row;
+    $row->{'percent'} = $r->{'complete'}/$r->{'total'}*100;
+    $row->{'ccode'} = $r->{'ccode'};
      push( @results, $row );
  }
 
