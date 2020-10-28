@@ -218,7 +218,8 @@ sub inventory_step1 {
   my @categories = Koha::Patron::Categories->search_limited({}, {order_by => ['description']});
   $template->param(
       print => $print,
-      libraries => \@libraries,
+      timerange => $timerange,
+      branch => $branch,
       results => \@results,
   );
 
@@ -235,6 +236,11 @@ sub report_step2 {
   my $timerange = $cgi->param('timerange');
   my $branch = $cgi->param('branch');
   my $ccode = $cgi->param('ccode');
+
+  my $print;
+
+  my $today = DateTime->now;
+  my $start_date;
 
   if ( $timerange ) {
     $start_date = $today - DateTime::Duration->new( months => $timerange );
@@ -283,9 +289,10 @@ sub report_step2 {
   my $template = $self->get_template({ file => 'inventory-step2.tt' });
 
   $template->param(
-      date_ran     => dt_from_string(),
-      results_loop => \@results,
-	    branch       => Koha::Libraries->find($branch)->branchname,
+      print => $print,
+      timerange => $timerange,
+      branch => $branch,
+      results => \@results,
   );
 
   unless ( $ccode eq '%' ) {
