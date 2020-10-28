@@ -1,0 +1,69 @@
+[% USE AuthorisedValues %]
+[% INCLUDE 'doc-head-open.inc' %]
+ <title>Koha Inventory Plugin</title>
+ <script type="text/javascript" src="[% PLUGIN_PATH %]/datepicker/js/datepicker.js"></script>
+ <link href="[% PLUGIN_PATH %]/datepicker/css/datepicker.css" rel="stylesheet" type="text/css" />
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Inventory</div>
+
+<div id="doc3">
+	<h3>Inventory</h3>
+
+        <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
+	<form method="get">
+      <input type="hidden" name="class" value="[% CLASS %]"/>
+      <input type="hidden" name="method" value="[% METHOD %]"/>
+      [% IF branch %]
+      <h4>[% branch %]</h4>
+      [% ELSE %]
+      <label>Select Library:</label>
+  		<select name="branch">
+  			[% FOREACH library IN libraries %]
+  				<option	value="[% library.branchcode %]">
+  					[% library.branchname %]
+  				</option>
+  			[% END %]
+  		</select>
+      [% END %]
+
+      [% IF results %]
+      [% results %]
+        [% FOREACH row IN results %]
+        [% row %]
+          <table>
+            <tr>
+              <td><a href="?timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.xall.ccode %]">[% xall.row.ccode %]</a></td>
+              <td>[% row.cn %]</td>
+            </tr>
+          </table>
+        [% END %]
+      [% END %]
+
+    <label>Time Range:</label>
+		<select name="timerange">
+      [% IF timerange %]
+        <option value="[% timerange %]" selected="selected">[% timerange %] Months</option>
+          [% IF timerange == 6 %]
+            <option value="12">12 Months</option>
+          [% ELSE %]
+            <option value="6">6 Months</option>
+          [% END %]
+      [% ELSE %]
+        <option value="6" selected="selected">6 Months</option>
+        <option value="12">12 Months</option>
+      [% END %]
+		</select>
+
+
+
+
+		<input type="submit" value="Go" />
+
+	</form>
+
+[% INCLUDE 'intranet-bottom.inc' %]

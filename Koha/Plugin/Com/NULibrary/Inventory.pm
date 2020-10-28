@@ -191,15 +191,15 @@ sub inventory_step1 {
   my $query = "SELECT xall.ccode, complete, total FROM
   (SELECT ccode, COUNT(DISTINCT barcode) total
   FROM items
-  WHERE withdrawn != '1'
-    AND library = $branch
+  WHERE withdrawn <> '1'
+    AND homebranch = $branch
   GROUP BY ccode
   ORDER BY ccode) xall
   LEFT JOIN (SELECT ccode, COUNT(DISTINCT barcode) complete
   FROM items
   WHERE (datelastseen > $start_date)
-    AND withdrawn != '1'
-    AND library = $branch
+    AND withdrawn <> '1'
+    AND homebranch = $branch
   GROUP BY ccode
   ORDER BY ccode) done
   ON xall.ccode = done.ccode";
@@ -236,31 +236,39 @@ sub report_step2 {
   my $branch = $cgi->param('branch');
   my $ccode = $cgi->param('ccode');
 
-  my $barcode   = $cgi->param('bc');
-
-  my $date = dt_from_string();
-  $date = output_pref ( { dt => $date, dateformat => 'iso' } );
-
-
-  my $query = "
-	SELECT items.ccode,items.location,items.cn_source,items.cn_sort,items.itemcallnumber AS callnumber,items.enumchron,items.barcode,biblio.title AS title,biblio.author
-	FROM items
-	LEFT JOIN biblioitems ON (items.biblioitemnumber=biblioitems.biblioitemnumber)
-	LEFT JOIN biblio ON (biblioitems.biblionumber=biblio.biblionumber)
-  WHERE (items.homebranch = '$branch' AND items.ccode = '$ccode'
-  ";
-
-  $query .= ")";
-
-  if ( $timerange eq '6' ) {
-
-  } elsif ( $timerange eq '12' ) {
-
+  if ( $timerange ) {
+    $start_date = $today - DateTime::Duration->new( months => $timerange );
+  } elsif ( undef($timerange) ) {
+    $start_date = $today - DateTime::Duration->new( months => 6 );
+  } else {
+    $print = "timerange not handled, set to " . $timerange . "<br/>";
   }
 
-	$query .= "
-	ORDER BY items.cn_source, items.cn_sort ASC
-	";
+  my $branch = $cgi->param('branch');
+
+  unless ( $branch ) {
+    $branch = "KIRKLAND";
+  }
+
+  my $query = "SELECT xall.ccode, xall.cn, complete, total FROM
+				(SELECT ccode, SUBSTRING(itemcallnumber, 1, 2) cn, COUNT(DISTINCT barcode) total
+				FROM items
+				WHERE withdrawn != '1'
+					AND ccode = $ccode
+					AND homebranch = $branch
+				GROUP BY ccode, cn
+				ORDER BY ccode, cn) xall
+			LEFT JOIN
+				(SELECT ccode, SUBSTRING(itemcallnumber, 1, 2) cn, COUNT(DISTINCT barcode) complete
+				FROM items
+				WHERE (datelastseen > $start_date)
+					AND ccode = $ccode
+					AND withdrawn != '1'
+					AND homebranch = $branch
+				GROUP BY ccode, cn
+				ORDER BY ccode, cn) done
+			ON (xall.ccode = done.ccode)
+				AND (xall.cn = done.cn)";
 
   my $sth = $dbh->prepare($query);
   $sth->execute();
