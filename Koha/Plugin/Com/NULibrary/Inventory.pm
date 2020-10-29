@@ -245,7 +245,7 @@ sub report_step2 {
 
   if ( $timerange ) {
     $start_date = $today - DateTime::Duration->new( months => $timerange );
-  } elsif ( undef($timerange) ) {
+  } elsif ( $timerange eq '' ) {
     $start_date = $today - DateTime::Duration->new( months => 6 );
   } else {
     $print = "timerange not handled, set to " . $timerange . "<br/>";
