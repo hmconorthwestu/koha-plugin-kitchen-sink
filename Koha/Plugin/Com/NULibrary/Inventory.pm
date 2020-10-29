@@ -172,8 +172,10 @@ sub inventory_step1 {
 
   if ( $timerange ) {
     $start_date = $today - DateTime::Duration->new( months => $timerange );
+    $print = "timerange exists, set to " . $timerange . "<br/>";
   } elsif ( undef($timerange) ) {
     $start_date = $today - DateTime::Duration->new( months => 6 );
+    $print = "timerange not set, start date set to " . $start_date . "<br/>";
   } else {
     $print = "timerange not handled, set to " . $timerange . "<br/>";
   }
