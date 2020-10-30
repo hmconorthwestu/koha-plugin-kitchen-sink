@@ -37,7 +37,7 @@
         [% row %]
           <table class="NU_inventory_table">
             <tr>
-              <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.xall.ccode %]">[% xall.row.ccode %]%</a></td>
+              <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&cn=[% row.cn %]">[% row.cn %]%</a></td>
               <td>[% row.cn %]</td>
             </tr>
           </table>
