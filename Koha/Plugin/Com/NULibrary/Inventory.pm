@@ -67,7 +67,7 @@ sub report {
         $self->inventory_step1();
     }
     else {
-      if ( $cgi->param('timerange') & !$cgi->param('ccode') ) {
+      if ( $cgi->param('timerange') & undef($cgi->param('ccode')) ) {
         $self->inventory_step1();
       } else {
         $self->inventory_step2();
