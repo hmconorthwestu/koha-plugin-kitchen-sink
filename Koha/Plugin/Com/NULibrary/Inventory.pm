@@ -64,11 +64,13 @@ sub report {
     my $cgi = $self->{'cgi'};
 
     unless ( $cgi->param('output') ) {
-        $self->inventory_step1();
-    } elsif ( $cgi->param('ccode') ) {
-      $self->inventory_step2();
-    } else {
       $self->inventory_step1();
+    } else {
+      if ( $cgi->param('ccode') ) {
+        $self->inventory_step2();
+      } else {
+        $self->inventory_step1();
+      }
     }
 }
 
