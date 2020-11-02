@@ -232,7 +232,7 @@ my @libraries = Koha::Libraries->search;
 }
 
 
-sub report_step2 {
+sub inventory_step2 {
   my ( $self, $args ) = @_;
   my $cgi = $self->{'cgi'};
 
