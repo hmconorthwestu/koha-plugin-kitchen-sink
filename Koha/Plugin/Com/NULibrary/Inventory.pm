@@ -65,15 +65,10 @@ sub report {
 
     unless ( $cgi->param('output') ) {
         $self->inventory_step1();
-    }
-    else {
-      if ( $cgi->param('timerange') ) {
-        if ( $cgi->param('ccode') ) {
-          $self->inventory_step2();
-        } else {
-          $self->inventory_step1();
-        }
-      }
+    } elsif ( $cgi->param('ccode') ) {
+      $self->inventory_step2();
+    } else {
+      $self->inventory_step1();
     }
 }
 
@@ -174,10 +169,14 @@ sub inventory_step1 {
 
   if ( $timerange ) {
     $start_date = $today - DateTime::Duration->new( months => $timerange );
-    $print = "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
+    $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
   } else {
     $start_date = $today - DateTime::Duration->new( months => 6 );
-    $print = "timerange not set, using date " . $start_date . "<br/>";
+    $print .= "timerange not set, using date " . $start_date . "<br/>";
+  }
+
+  if ($cgi->param('ccode')) {
+    $print .= "param ccode is set as " . $cgi->param('ccode');
   }
 
   my $branch = $cgi->param('branch');
@@ -248,11 +247,16 @@ sub report_step2 {
 
   if ( $timerange ) {
     $start_date = $today - DateTime::Duration->new( months => $timerange );
-    $print = "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
+    $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
   } else {
     $start_date = $today - DateTime::Duration->new( months => 6 );
-    $print = "timerange not set, using date " . $start_date . "<br/>";
+    $print .= "timerange not set, using date " . $start_date . "<br/>";
   }
+
+  if ($cgi->param('ccode')) {
+    $print .= "param ccode is set as " . $cgi->param('ccode');
+  }
+
 
   my $branch = $cgi->param('branch');
 
