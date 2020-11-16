@@ -63,15 +63,12 @@ sub report {
     my ( $self, $args ) = @_;
     my $cgi = $self->{'cgi'};
 
-    unless ( $cgi->param('output') ) {
-      $self->inventory_step1();
-    } else {
       if ( $cgi->param('ccode') ) {
         $self->inventory_step2();
       } else {
         $self->inventory_step1();
       }
-    }
+
 }
 
 ## If your plugin needs to add some CSS to the staff intranet, you'll want
@@ -290,7 +287,12 @@ sub inventory_step2 {
   $sth->execute();
 
   my @results;
-  while ( my $row = $sth->fetchrow_hashref() ) {
+  while ( my $r = $sth->fetchrow_hashref() ) {
+    my $row;
+     my $percent = $r->{'complete'}/$r->{'total'}*100;
+     $row->{'percent'} = int $percent;
+     $row->{'ccode'} = $r->{'ccode'};
+     $row->{'cn'} = $r->{'cn'};
       push( @results, $row );
   }
 
