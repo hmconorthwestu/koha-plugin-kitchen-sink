@@ -256,7 +256,6 @@ sub inventory_step2 {
     $print .= "param ccode is set as " . $cgi->param('ccode');
   }
 
-
   my $branch = $cgi->param('branch');
 
   unless ( $branch ) {
@@ -264,22 +263,22 @@ sub inventory_step2 {
   }
 
   my $query = "SELECT xall.ccode, xall.cn, complete, total FROM
-				(SELECT ccode, SUBSTRING(itemcallnumber, 1, 2) cn, COUNT(DISTINCT barcode) total
+				(SELECT ccode, cn_source, SUBSTRING(itemcallnumber, 1, 3) cn, COUNT(DISTINCT barcode) total
 				FROM items
 				WHERE withdrawn <> '1'
 					AND ccode = '$ccode'
 					AND homebranch = '$branch'
 				GROUP BY ccode, cn
-				ORDER BY ccode, cn) xall
+				ORDER BY cn_source, ccode, cn) xall
 			LEFT JOIN
-				(SELECT ccode, SUBSTRING(itemcallnumber, 1, 2) cn, COUNT(DISTINCT barcode) complete
+				(SELECT ccode, cn_source, SUBSTRING(itemcallnumber, 1, 3) cn, COUNT(DISTINCT barcode) complete
 				FROM items
 				WHERE (datelastseen > '$start_date')
 					AND ccode = '$ccode'
 					AND withdrawn <> '1'
 					AND homebranch = '$branch'
 				GROUP BY ccode, cn
-				ORDER BY ccode, cn) done
+				ORDER BY cn_source, ccode, cn) done
 			ON (xall.ccode = done.ccode)
 				AND (xall.cn = done.cn)";
 
@@ -291,6 +290,7 @@ sub inventory_step2 {
     my $row;
      my $percent = $r->{'complete'}/$r->{'total'}*100;
      $row->{'percent'} = int $percent;
+     $row->{'cn_source'} = $r->{'cn_source'};
      $row->{'ccode'} = $r->{'ccode'};
      $row->{'cn'} = $r->{'cn'};
       push( @results, $row );
