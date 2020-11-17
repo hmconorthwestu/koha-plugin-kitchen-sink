@@ -14,7 +14,7 @@
 <div id="doc3">
 	<h3>Inventory</h3>
 
-        <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
+  <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
 	<form method="get">
       <input type="hidden" name="class" value="[% CLASS %]"/>
       <input type="hidden" name="method" value="[% METHOD %]"/>
@@ -29,19 +29,6 @@
   				</option>
   			[% END %]
   		</select>
-      [% END %]
-
-      [% IF results %]
-      [% results %]
-        [% FOREACH row IN results %]
-        [% row %]
-          <table class="NU_inventory_table">
-            <tr>
-              <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&cn=[% row.cn %]">[% row.cn %]%</a></td>
-              <td>[% row.percent %]</td>
-            </tr>
-          </table>
-        [% END %]
       [% END %]
 
     <label>Time Range:</label>
@@ -59,11 +46,22 @@
       [% END %]
 		</select>
 
-
-
-
 		<input type="submit" value="Go" />
 
 	</form>
+
+
+        [% IF results %]
+        [% results %]
+          [% FOREACH row IN results %]
+          [% row %]
+            <table class="NU_inventory_table">
+              <tr>
+                <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&cn=[% row.cn %]">[% row.cn %]%</a></td>
+                <td>[% row.percent %]</td>
+              </tr>
+            </table>
+          [% END %]
+        [% END %]
 
 [% INCLUDE 'intranet-bottom.inc' %]
