@@ -377,7 +377,7 @@ if ( $bc ) {
 					AND i.homebranch = '$branch'
 					AND i.itemcallnumber LIKE '$cn%'
 				ORDER BY i.itemcallnumber
-			LIMIT 50";
+			LIMIT 1000";
 
   my $sth = $dbh->prepare($query);
   $sth->execute();
