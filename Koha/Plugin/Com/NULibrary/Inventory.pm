@@ -266,7 +266,7 @@ sub inventory_step2 {
   my $query = "SELECT xall.ccode, xall.cn, complete, total FROM
 				(SELECT ccode, SUBSTRING(itemcallnumber, 1, 2) cn, COUNT(DISTINCT barcode) total
 				FROM items
-				WHERE withdrawn != '1'
+				WHERE withdrawn <> '1'
 					AND ccode = $ccode
 					AND homebranch = $branch
 				GROUP BY ccode, cn
@@ -276,7 +276,7 @@ sub inventory_step2 {
 				FROM items
 				WHERE (datelastseen > $start_date)
 					AND ccode = $ccode
-					AND withdrawn != '1'
+					AND withdrawn <> '1'
 					AND homebranch = $branch
 				GROUP BY ccode, cn
 				ORDER BY ccode, cn) done
