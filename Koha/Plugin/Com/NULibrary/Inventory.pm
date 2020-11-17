@@ -64,7 +64,11 @@ sub report {
     my $cgi = $self->{'cgi'};
 
       if ( $cgi->param('ccode') ) {
-        $self->inventory_step2();
+        if ( $cgi->param('cn') ) {
+          $self->inventory_step3();
+        } else {
+          $self->inventory_step2();
+        }
       } else {
         $self->inventory_step1();
       }
@@ -228,7 +232,6 @@ my @libraries = Koha::Libraries->search;
   $self->output_html( $template->output() );
 }
 
-
 sub inventory_step2 {
   my ( $self, $args ) = @_;
   my $cgi = $self->{'cgi'};
@@ -299,6 +302,92 @@ sub inventory_step2 {
   my $filename;
 
   my $template = $self->get_template({ file => 'inventory-step2.tt' });
+
+  $template->param(
+      print => $print,
+      timerange => $timerange,
+      branch => $branch,
+      results => \@results,
+  );
+
+  unless ( $ccode eq '%' ) {
+      $template->param( ccode => $ccode );
+  }
+
+  $self->output_html( $template->output() );
+}
+
+sub inventory_step3 {
+  my ( $self, $args ) = @_;
+  my $cgi = $self->{'cgi'};
+
+  my $dbh = C4::Context->dbh;
+
+  my $timerange = $cgi->param('timerange');
+  my $branch = $cgi->param('branch');
+  my $ccode = $cgi->param('ccode');
+  my $cn = $cgi->param('cn');
+  my $bc = $cgi->param('bc');
+
+  my $print;
+
+  my $today = DateTime->now;
+  my $start_date;
+
+  if ( $timerange ) {
+    $start_date = $today - DateTime::Duration->new( months => $timerange );
+    $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
+  } else {
+    $start_date = $today - DateTime::Duration->new( months => 6 );
+    $print .= "timerange not set, using date " . $start_date . "<br/>";
+  }
+
+# if item scanned, mark as seen
+if ( $bc ) {
+  my $dt = dt_from_string();
+  	my $datelastseen = $dt->ymd('-');
+  	my $kohaitem = Koha::Items->find({barcode => $bc});
+    my $item;
+  	if ( $kohaitem ) {
+  		my $item = $kohaitem->unblessed;
+        # Modify date last seen for scanned items, remove lost status
+        $kohaitem->set({ itemlost => 0, datelastseen => $datelastseen })->store;
+        # update item hash accordingly
+      }
+    }
+
+  if ($cgi->param('ccode')) {
+    $print .= "param ccode is set as " . $cgi->param('ccode');
+  }
+
+  my $branch = $cgi->param('branch');
+
+  unless ( $branch ) {
+    $branch = "KIRKLAND";
+  }
+
+  my $query = "SELECT i.barcode, i.itemcallnumber, i.enumchron, b.title, i.itemlost
+				FROM (items i
+					LEFT JOIN biblio b ON i.biblionumber = b.biblionumber)
+				WHERE (i.datelastseen > '$start_date')
+					AND i.ccode = '$ccode'
+					AND i.withdrawn <> '1'
+					AND i.homebranch = '$branch'
+					AND i.itemcallnumber LIKE '$cn%'
+				ORDER BY i.itemcallnumber
+			LIMIT 50";
+
+  my $sth = $dbh->prepare($query);
+  $sth->execute();
+
+  my @results;
+  while ( my $row = $sth->fetchrow_hashref() ) {
+    push( @results, $row );
+  }
+
+  my $filename;
+
+  my $template = $self->get_template({ file => 'inventory-step3.tt' });
 
   $template->param(
       print => $print,

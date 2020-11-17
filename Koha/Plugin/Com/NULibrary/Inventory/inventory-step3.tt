@@ -46,19 +46,34 @@
       [% END %]
 		</select>
 
+    <input id="bc" type="text" name="bc" size=15 placeholder="Barcode" autocomplete="off" autofocus >
+
 		<input type="submit" value="Go" />
 
 	</form>
 
 [% IF results %]
   [% FOREACH row IN results %]
-  [% row %]
-    <table class="NU_inventory_table">
-      <tr>
-        <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]">[% row.cn %]</a></td>
-        <td>[% row.percent %]%</td>
-      </tr>
-    </table>
+    <dt class="NU_dt">[% r.itemcallnumber %]
+      <dd class="NU_dd">barcode: [% r.barcode %]
+      </br>
+      [% r.title %]
+      </br>
+      [% r.author %]
+      </br>
+      [% r.homebranch %]
+      </br>
+      [% r.holdingbranch %]
+      </br>
+      [% r.ccode %]
+      </br>
+      [% r.enumchron %]
+      </br>
+      [% r.location %]
+      </br>
+      [% r.itemlost %]
+      </dd>
+    </dt>
   [% END %]
 [% END %]
 
