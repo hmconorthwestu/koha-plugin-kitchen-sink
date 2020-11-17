@@ -50,18 +50,21 @@
 
 	</form>
 
+[% IF results %]
+[% results %]
+  [% FOREACH row IN results %]
+  [% row %]
+    <table class="NU_inventory_table">
+      <tr>
+        <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&cn=[% row.cn %]">[% row.cn %]%</a></td>
+        <td>[% row.percent %]</td>
+      </tr>
+    </table>
+  [% END %]
+[% END %]
 
-        [% IF results %]
-        [% results %]
-          [% FOREACH row IN results %]
-          [% row %]
-            <table class="NU_inventory_table">
-              <tr>
-                <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&cn=[% row.cn %]">[% row.cn %]%</a></td>
-                <td>[% row.percent %]</td>
-              </tr>
-            </table>
-          [% END %]
-        [% END %]
+[% IF print %]
+  [% print %]
+[% END %]
 
 [% INCLUDE 'intranet-bottom.inc' %]

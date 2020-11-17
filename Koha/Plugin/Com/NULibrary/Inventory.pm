@@ -267,17 +267,17 @@ sub inventory_step2 {
 				(SELECT ccode, SUBSTRING(itemcallnumber, 1, 2) cn, COUNT(DISTINCT barcode) total
 				FROM items
 				WHERE withdrawn <> '1'
-					AND ccode = $ccode
-					AND homebranch = $branch
+					AND ccode = '$ccode'
+					AND homebranch = '$branch'
 				GROUP BY ccode, cn
 				ORDER BY ccode, cn) xall
 			LEFT JOIN
 				(SELECT ccode, SUBSTRING(itemcallnumber, 1, 2) cn, COUNT(DISTINCT barcode) complete
 				FROM items
-				WHERE (datelastseen > $start_date)
-					AND ccode = $ccode
+				WHERE (datelastseen > '$start_date')
+					AND ccode = '$ccode'
 					AND withdrawn <> '1'
-					AND homebranch = $branch
+					AND homebranch = '$branch'
 				GROUP BY ccode, cn
 				ORDER BY ccode, cn) done
 			ON (xall.ccode = done.ccode)
