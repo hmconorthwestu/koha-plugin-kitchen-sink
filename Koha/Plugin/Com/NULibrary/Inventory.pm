@@ -266,7 +266,7 @@ sub inventory_step2 {
   }
 
   my $query = "SELECT xall.ccode, xall.cn, complete, total FROM
-				(SELECT ccode, cn_source, SUBSTRING(itemcallnumber, 1, 3) cn, COUNT(DISTINCT barcode) total
+				(SELECT ccode, cn_source, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) total
 				FROM items
 				WHERE withdrawn <> '1'
 					AND ccode = '$ccode'
@@ -274,7 +274,7 @@ sub inventory_step2 {
 				GROUP BY ccode, cn
 				ORDER BY cn_source, ccode, cn) xall
 			LEFT JOIN
-				(SELECT ccode, cn_source, SUBSTRING(itemcallnumber, 1, 3) cn, COUNT(DISTINCT barcode) complete
+				(SELECT ccode, cn_source, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) complete
 				FROM items
 				WHERE (datelastseen > '$start_date')
 					AND ccode = '$ccode'
@@ -359,6 +359,8 @@ if ( $bc ) {
   if ($cgi->param('ccode')) {
     $print .= "param ccode is set as " . $cgi->param('ccode');
   }
+
+  $print .= "param cn is set as " . $cgi->param('cn');
 
   my $branch = $cgi->param('branch');
 

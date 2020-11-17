@@ -54,24 +54,24 @@
 
 [% IF results %]
   [% FOREACH row IN results %]
-    <dt class="NU_dt">[% r.itemcallnumber %]
-      <dd class="NU_dd">barcode: [% r.barcode %]
+    <dt class="NU_dt">[% row.itemcallnumber %]
+      <dd class="NU_dd">barcode: [% row.barcode %]
       </br>
-      [% r.title %]
+      [% row.title %]
       </br>
-      [% r.author %]
+      [% row.author %]
       </br>
-      [% r.homebranch %]
+      [% row.homebranch %]
       </br>
-      [% r.holdingbranch %]
+      [% row.holdingbranch %]
       </br>
-      [% r.ccode %]
+      [% row.ccode %]
       </br>
-      [% r.enumchron %]
+      [% row.enumchron %]
       </br>
-      [% r.location %]
+      [% row.location %]
       </br>
-      [% r.itemlost %]
+      [% row.itemlost %]
       </dd>
     </dt>
   [% END %]
