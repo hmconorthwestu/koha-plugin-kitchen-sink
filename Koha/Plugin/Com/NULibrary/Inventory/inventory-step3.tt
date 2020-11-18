@@ -45,9 +45,9 @@
         <option value="12">12 Months</option>
       [% END %]
 		</select>
-
+    </br>
     <input id="bc" type="text" name="bc" size=15 placeholder="Barcode" autocomplete="off" autofocus >
-
+    </br>
 		<input type="submit" value="Go" />
 
 	</form>
@@ -57,21 +57,21 @@
     <dt class="NU_dt">[% row.itemcallnumber %]
       <dd class="NU_dd">barcode: [% row.barcode %]
       </br>
-      [% row.title %]
+      title: [% row.title %]
       </br>
-      [% row.author %]
+      author:[% row.author %]
       </br>
-      [% row.homebranch %]
+      home library: [% row.homebranch %]
       </br>
-      [% row.holdingbranch %]
+      holding branch: [% row.holdingbranch %]
       </br>
-      [% row.ccode %]
+      collection: [% row.ccode %]
       </br>
-      [% row.enumchron %]
+      Enumeration: [% row.enumchron %]
       </br>
-      [% row.location %]
+      Shelving location: [% row.location %]
       </br>
-      [% row.itemlost %]
+      lost: [% row.itemlost %] = [% row.lib %]
       </dd>
     </dt>
   [% END %]

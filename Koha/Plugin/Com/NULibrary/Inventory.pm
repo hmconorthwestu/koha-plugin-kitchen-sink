@@ -172,14 +172,10 @@ sub inventory_step1 {
 
   if ( $timerange ) {
     $start_date = $today - DateTime::Duration->new( months => $timerange );
-    $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
+#    $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
   } else {
     $start_date = $today - DateTime::Duration->new( months => 6 );
-    $print .= "timerange not set, using date " . $start_date . "<br/>";
-  }
-
-  if ($cgi->param('ccode')) {
-    $print .= "param ccode is set as " . $cgi->param('ccode');
+#    $print .= "timerange not set, using date " . $start_date . "<br/>";
   }
 
   my $branch = $cgi->param('branch');
@@ -249,14 +245,10 @@ sub inventory_step2 {
 
   if ( $timerange ) {
     $start_date = $today - DateTime::Duration->new( months => $timerange );
-    $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
+  #  $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
   } else {
     $start_date = $today - DateTime::Duration->new( months => 6 );
-    $print .= "timerange not set, using date " . $start_date . "<br/>";
-  }
-
-  if ($cgi->param('ccode')) {
-    $print .= "param ccode is set as " . $cgi->param('ccode');
+  #  $print .= "timerange not set, using date " . $start_date . "<br/>";
   }
 
   my $branch = $cgi->param('branch');
@@ -368,9 +360,10 @@ if ( $bc ) {
     $branch = "KIRKLAND";
   }
 
-  my $query = "SELECT i.barcode, i.itemcallnumber, i.enumchron, b.title, i.itemlost
-				FROM (items i
-					LEFT JOIN biblio b ON i.biblionumber = b.biblionumber)
+  my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, v.lib
+				FROM items i
+					LEFT JOIN biblio b ON (i.biblionumber = b.biblionumber)
+          LEFT JOIN authorised_values v ON (i.itemlost=v.authorised_value)
 				WHERE (i.datelastseen < '$start_date')
 					AND i.ccode = '$ccode'
 					AND i.withdrawn <> '1'
