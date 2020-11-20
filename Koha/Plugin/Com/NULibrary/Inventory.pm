@@ -369,6 +369,7 @@ if ( $bc ) {
 					AND i.withdrawn <> '1'
 					AND i.homebranch = '$branch'
 					AND i.itemcallnumber LIKE '$cn%'
+          AND v.category = 'LOST'
 				ORDER BY i.itemcallnumber
 			LIMIT 1000";
 
