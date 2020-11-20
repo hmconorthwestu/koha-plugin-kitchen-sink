@@ -12,7 +12,10 @@
 <div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Inventory</div>
 
 <div id="doc3">
-	<h3>Inventory</h3>
+  <div id="NUPluginTitle">
+  	<h3>Inventory</h3>
+  </div>
+  <div id="NUPluginContent">
 
   <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
 	<form class="NU_form" method="get">
@@ -57,7 +60,7 @@
 
 [% IF results %]
   [% FOREACH row IN results %]
-    <dt class="NU_dt">[% row.itemcallnumber %]
+    <dt class="NU_dt [% IF row.itemlost eq '3' %]NU_inventory_missing[% END IF %]">[% row.itemcallnumber %]
       <dd class="NU_dd">barcode: [% row.barcode %]
       </br>
       title: [% row.title %]
@@ -76,7 +79,7 @@
       </br>
       lost: [% row.itemlost %] = [% row.lib %]
       </br>
-        <span class="NU_inventory_missing">
+        <span class="NU_inventory_mark_missing">
           <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]&bc=[% row.bc %]&mark_missing=TRUE">
             Mark Missing
           </a>
@@ -93,4 +96,5 @@
   [% print %]
 [% END %]
 
+</div>
 [% INCLUDE 'intranet-bottom.inc' %]
