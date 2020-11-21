@@ -350,8 +350,6 @@ if ( $bc ) {
     }
 
     if ( $mark_missing ) {
-      my $dt = dt_from_string();
-      	my $datelastseen = $dt->ymd('-');
       	my $kohaitem = Koha::Items->find({barcode => $bc});
         my $item;
       	if ( $kohaitem ) {
