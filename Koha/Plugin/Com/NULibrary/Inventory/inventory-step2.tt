@@ -12,8 +12,11 @@
 <div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Inventory</div>
 
 <div id="doc3">
+<div id="NUPluginTitle">
 	<h3>Inventory</h3>
+</div>
 
+<div id="NUPluginContent">
   <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
 	<form method="get">
       <input type="hidden" name="class" value="[% CLASS %]"/>
@@ -64,5 +67,7 @@
 [% IF print %]
   [% print %]
 [% END %]
+
+</div>
 
 [% INCLUDE 'intranet-bottom.inc' %]

@@ -57,7 +57,7 @@
           <table class="NU_inventory_table">
             <tr>
               <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report[% IF timerange %]&timerange=[% timerange %][% END %]&branch=[% branch %]&ccode=[% row.ccode %]">[% row.ccode %]</a></td>
-              <td>[% row.percent %]</td>
+              <td>[% row.percent %]%</td>
             </tr>
           </table>
         [% END %]
