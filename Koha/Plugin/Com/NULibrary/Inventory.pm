@@ -380,10 +380,10 @@ if ( $bc ) {
 					AND i.ccode = '$ccode'
 					AND i.withdrawn <> '1'
 					AND i.homebranch = '$branch'
-					AND i.itemcallnumber LIKE '$cn%'
+					AND i.itemcallnumber LIKE '$cn %'
           AND v.category = 'LOST'
 				ORDER BY i.itemcallnumber
-			LIMIT 1000";
+			LIMIT 5000";
 
   my $sth = $dbh->prepare($query);
   $sth->execute();
