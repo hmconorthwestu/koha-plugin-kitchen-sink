@@ -60,7 +60,7 @@
 
 [% IF results %]
   [% FOREACH row IN results %]
-    <dt class="NU_dt [% IF row.itemlost == '3' %]NU_inventory_missing[% END %]">[% row.itemcallnumber %]
+    <dt class="NU_dt [% IF row.itemlost > '0' %]NU_inventory_missing[% END %]">[% row.itemcallnumber %]
       <dd class="NU_dd">barcode: [% row.barcode %]
       </br>
       title: [% row.title %]
