@@ -375,13 +375,11 @@ if ( $bc ) {
   my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, v.lib
 				FROM items i
 					LEFT JOIN biblio b ON (i.biblionumber = b.biblionumber)
-          LEFT JOIN authorised_values v ON (i.itemlost=v.authorised_value)
 				WHERE (i.datelastseen < '$start_date')
 					AND i.ccode = '$ccode'
 					AND i.withdrawn <> '1'
 					AND i.homebranch = '$branch'
 					AND i.itemcallnumber LIKE '$cn %'
-          AND ( v.category = 'LOST' OR i.itemlost = 0 )
 				ORDER BY i.itemcallnumber
 			LIMIT 5000";
 
