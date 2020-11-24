@@ -375,7 +375,6 @@ if ( $bc ) {
   my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost
 				FROM items i
 					LEFT JOIN biblio b ON (i.biblionumber = b.biblionumber)
-          LEFT JOIN authorised_values v ON (i.itemlost=v.authorised_value)
 				WHERE (i.datelastseen < '$start_date')
 					AND i.ccode = '$ccode'
 					AND i.withdrawn <> '1'

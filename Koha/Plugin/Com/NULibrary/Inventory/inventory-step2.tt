@@ -57,7 +57,7 @@
   [% FOREACH row IN results %]
     <table class="NU_inventory_table">
       <tr>
-        <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]">[% row.cn %]</a></td>
+        <td><a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]">[% row.cn %][% IF row.cn = NULL %]No call number[% END %]</a></td>
         <td>[% row.percent %]%</td>
       </tr>
     </table>
