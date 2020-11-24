@@ -52,10 +52,8 @@
     <input id="bc" type="text" name="bc" size=15 placeholder="Barcode" autocomplete="off" autofocus >
     <input id="cn" type="hidden" name="cn" size=15 value="[% row.cn %]" autocomplete="off" autofocus >
     <input id="ccode" type="hidden" name="ccode" size=15 value="[% row.ccode %]" autocomplete="off" autofocus >
-
     </br>
 		<input type="submit" value="Go" />
-
 	</form>
 
 [% IF results %]
