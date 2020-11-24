@@ -329,10 +329,10 @@ sub inventory_step3 {
 
   if ( $timerange ) {
     $start_date = $today - DateTime::Duration->new( months => $timerange );
-    $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
+#    $print .= "timerange is " . $timerange . ", using date " . $start_date . "<br/>";
   } else {
     $start_date = $today - DateTime::Duration->new( months => 6 );
-    $print .= "timerange not set, using date " . $start_date . "<br/>";
+#    $print .= "timerange not set, using date " . $start_date . "<br/>";
   }
 
 # if item scanned, mark as seen
@@ -361,10 +361,10 @@ if ( $bc ) {
         }
 
   if ($cgi->param('ccode')) {
-    $print .= "param ccode is set as " . $cgi->param('ccode');
+#    $print .= "param ccode is set as " . $cgi->param('ccode');
   }
 
-  $print .= "param cn is set as " . $cgi->param('cn');
+  # $print .= "param cn is set as " . $cgi->param('cn');
 
   my $branch = $cgi->param('branch');
 
@@ -372,7 +372,7 @@ if ( $bc ) {
     $branch = "KIRKLAND";
   }
 
-  my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, v.lib
+  my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost
 				FROM items i
 					LEFT JOIN biblio b ON (i.biblionumber = b.biblionumber)
           LEFT JOIN authorised_values v ON (i.itemlost=v.authorised_value)
@@ -381,7 +381,6 @@ if ( $bc ) {
 					AND i.withdrawn <> '1'
 					AND i.homebranch = '$branch'
 					AND i.itemcallnumber LIKE '$cn %'
-          AND v.category = 'LOST'
 				ORDER BY i.itemcallnumber
 			LIMIT 5000";
 

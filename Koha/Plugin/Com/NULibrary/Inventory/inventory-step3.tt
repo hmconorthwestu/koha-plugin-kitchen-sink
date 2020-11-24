@@ -61,6 +61,11 @@
 [% IF results %]
   [% FOREACH row IN results %]
     <dt class="NU_dt [% IF row.itemlost == '3' %]NU_inventory_missing[% END %]">[% row.itemcallnumber %]
+    [% IF row.itemlost = 1] - Lost[% END %]
+    [% IF row.itemlost = 2] - Long Overdue[% END %]
+    [% IF row.itemlost = 3] - Missing[% END %]
+    [% IF row.itemlost = 6] - Claimed Returned[% END %]
+    [% IF row.itemlost = 7] - Lost[% END %]
       <dd class="NU_dd">barcode: [% row.barcode %]
       </br>
       title: [% row.title %]
@@ -76,8 +81,6 @@
       Enumeration: [% row.enumchron %]
       </br>
       Shelving location: [% row.location %]
-      </br>
-      lost: [% row.itemlost %] = [% row.lib %]
       </br>
         <span class="NU_inventory_mark_missing">
           <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]&bc=[% row.bc %]&mark_missing=TRUE">
