@@ -81,7 +81,7 @@
       Shelving location: [% row.location %]
       </br>
         <span class="NU_inventory_mark_missing">
-          <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]&bc=[% row.bc %]&mark_missing=TRUE">
+          <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]&mbc=[% row.bc %]&mark_missing=TRUE">
             Mark Missing
           </a>
         </span>

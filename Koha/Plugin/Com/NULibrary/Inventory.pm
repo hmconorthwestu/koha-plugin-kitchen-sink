@@ -320,6 +320,7 @@ sub inventory_step3 {
   my $ccode = $cgi->param('ccode');
   my $cn = $cgi->param('cn');
   my $bc = $cgi->param('bc');
+  my $mbc = $cgi->param('mbc');
   my $mark_missing = $cgi->param('mark_missing');
 
   my $print;
@@ -349,16 +350,14 @@ if ( $bc ) {
       }
     }
 
-    if ( $mark_missing ) {
-      	my $kohaitem = Koha::Items->find({barcode => $bc});
-        my $item;
-      	if ( $kohaitem ) {
-      		my $item = $kohaitem->unblessed;
-            # Modify itemlost status to 3 = missing
-            $kohaitem->set({ itemlost => 3 })->store;
-            # update item hash accordingly
-          }
-        }
+if ( $mark_missing eq "TRUE" ) {
+  	my $kohaitem = Koha::Items->find({barcode => $mbc});
+  	if ( $kohaitem ) {
+        # Modify itemlost status to 3 = missing
+        $kohaitem->set({ itemlost => 3 })->store;
+        # update item hash accordingly
+      }
+    }
 
   if ($cgi->param('ccode')) {
 #    $print .= "param ccode is set as " . $cgi->param('ccode');
