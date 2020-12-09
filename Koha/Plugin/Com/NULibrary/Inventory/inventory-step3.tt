@@ -60,7 +60,7 @@
   [% FOREACH row IN results %]
     <dt class="NU_dt [% IF row.itemlost == '3' %]NU_inventory_missing[% END %]">[% row.itemcallnumber %]
     [% IF row.itemlost == 1 %] - Lost[% END %]
-    [% IF row.itemlost == 2 %] - Long Overdue[% END %]
+    [% IF row.itemlost == 2 %] - Long Overdue[% ELSIF row.onloan > 0 %] - Checked Out[% END %]
     [% IF row.itemlost == 3 %] - Missing[% END %]
     [% IF row.itemlost == 6 %] - Claimed Returned[% END %]
     [% IF row.itemlost == 7 %] - Lost[% END %]

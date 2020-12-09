@@ -372,7 +372,7 @@ if ( $bc ) {
     $branch = "KIRKLAND";
   }
 
-  my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost
+  my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, i.onloan
 				FROM items i
 					LEFT JOIN biblio b ON (i.biblionumber = b.biblionumber)
 				WHERE (i.datelastseen < '$start_date')
