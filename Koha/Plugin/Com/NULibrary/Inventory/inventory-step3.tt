@@ -76,8 +76,6 @@
       </br>
       holding branch: [% row.holdingbranch %]
       </br>
-      collection: [% row.ccode %]
-      </br>
       Shelving location: [% row.location %]
       </br>
         <span class="NU_inventory_mark_missing">
