@@ -387,6 +387,7 @@ if ( $mark_missing eq "TRUE" ) {
 
   my @results;
   while ( my $row = $sth->fetchrow_hashref() ) {
+    $row->{cn} = $cn;
     push( @results, $row );
   }
 

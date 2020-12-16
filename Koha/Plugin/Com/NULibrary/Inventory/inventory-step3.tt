@@ -23,6 +23,9 @@
       <input type="hidden" name="method" value="[% METHOD %]"/>
       [% IF branch %]
       <h4>[% branch %]</h4>
+        [% IF ccode %]
+        <h4>[% ccode %]</h4>        
+        [% ELSE %]
       [% ELSE %]
       <label>Select Library:</label>
   		<select name="branch">
@@ -58,7 +61,7 @@
 
 [% IF results %]
   [% FOREACH row IN results %]
-    <dt class="NU_dt [% IF row.itemlost == '3' %]NU_inventory_missing[% END %]">[% row.itemcallnumber %]
+    <dt class="NU_dt [% IF row.itemlost == '3' %]NU_inventory_missing[% END %]">[% row.itemcallnumber %] [% row.enumchron %]
     [% IF row.itemlost == 1 %] - Lost[% END %]
     [% IF row.itemlost == 2 %] - Long Overdue[% ELSIF row.onloan > 0 %] - Checked Out[% END %]
     [% IF row.itemlost == 3 %] - Missing[% END %]
@@ -66,17 +69,15 @@
     [% IF row.itemlost == 7 %] - Lost[% END %]
       <dd class="NU_dd">barcode: [% row.barcode %]
       </br>
-      title: [% row.title %]
+      [% row.title %]
       </br>
-      author:[% row.author %]
+      [% row.author %]
       </br>
       home library: [% row.homebranch %]
       </br>
       holding branch: [% row.holdingbranch %]
       </br>
       collection: [% row.ccode %]
-      </br>
-      Enumeration: [% row.enumchron %]
       </br>
       Shelving location: [% row.location %]
       </br>
