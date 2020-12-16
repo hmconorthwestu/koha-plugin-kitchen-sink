@@ -372,7 +372,7 @@ if ( $mark_missing eq "TRUE" ) {
   }
 
   if ( $ccode eq "No collection" ) {
-    $ccode = "";
+    $ccode = "NULL";
   }
 
   my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, i.onloan
