@@ -339,25 +339,25 @@ sub inventory_step3 {
 # if item scanned, mark as seen
 if ( $bc ) {
   my $dt = dt_from_string();
-  	my $datelastseen = $dt->ymd('-');
-  	my $kohaitem = Koha::Items->find({barcode => $bc});
-    my $item;
-  	if ( $kohaitem ) {
-  		my $item = $kohaitem->unblessed;
-        # Modify date last seen for scanned items, remove lost status
-        $kohaitem->set({ itemlost => 0, datelastseen => $datelastseen })->store;
-        # update item hash accordingly
-      }
-    }
+	my $datelastseen = $dt->ymd('-');
+	my $kohaitem = Koha::Items->find({barcode => $bc});
+  my $item;
+	if ( $kohaitem ) {
+		my $item = $kohaitem->unblessed;
+      # Modify date last seen for scanned items, remove lost status
+      $kohaitem->set({ itemlost => 0, datelastseen => $datelastseen })->store;
+      # update item hash accordingly
+  }
+}
 
 if ( $mark_missing eq "TRUE" ) {
-  	my $kohaitem = Koha::Items->find({barcode => $mbc});
-  	if ( $kohaitem ) {
-        # Modify itemlost status to 3 = missing
-        $kohaitem->set({ itemlost => 3 })->store;
-        # update item hash accordingly
-      }
-    }
+  my $kohaitem = Koha::Items->find({barcode => $mbc});
+  if ( $kohaitem ) {
+      # Modify itemlost status to 3 = missing
+      $kohaitem->set({ itemlost => 3 })->store;
+      # update item hash accordingly
+  }
+}
 
   if ($cgi->param('ccode')) {
 #    $print .= "param ccode is set as " . $cgi->param('ccode');
@@ -403,6 +403,7 @@ if ( $mark_missing eq "TRUE" ) {
       print => $print,
       timerange => $timerange,
       branch => $branch,
+      cn => $cn,
       ccode => $ccode,
       results => \@results,
   );
