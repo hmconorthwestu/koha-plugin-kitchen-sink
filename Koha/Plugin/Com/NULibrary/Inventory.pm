@@ -192,14 +192,14 @@ sub inventory_step1 {
   (SELECT ccode, COUNT(DISTINCT barcode) total
   FROM items
   WHERE withdrawn <> '1'
-    AND homebranch = 'KIRKLAND'
+    AND homebranch = '$branch'
   GROUP BY ccode
   ORDER BY ccode) xall
   LEFT JOIN (SELECT ccode, COUNT(DISTINCT barcode) complete
   FROM items
   WHERE (datelastseen > '2020-10-01')
     AND withdrawn <> '1'
-    AND homebranch = 'KIRKLAND'
+    AND homebranch = '$branch'
   GROUP BY ccode
   ORDER BY ccode) done
   ON xall.ccode = done.ccode";
