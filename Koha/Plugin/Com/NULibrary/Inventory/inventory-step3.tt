@@ -24,8 +24,8 @@
       [% IF branch %]
       <h4>[% branch %]</h4>
         [% IF ccode %]
-        <h4>[% ccode %]</h4>        
-        [% ELSE %]
+        <h4>[% ccode %]</h4>
+        [% END %]
       [% ELSE %]
       <label>Select Library:</label>
   		<select name="branch">
