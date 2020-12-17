@@ -21,8 +21,19 @@
       <input type="hidden" name="class" value="[% CLASS %]"/>
       <input type="hidden" name="method" value="[% METHOD %]"/>
       [% IF branch %]
-      <h4>[% branch %]</h4>
-      [% END %]
+      <h4>[% FOREACH library IN libraries %][% IF branch == library.branchcode %][% library.branchname %][% END %][% END %]</h4>
+        [% IF ccode %]
+        <h4>[% ccode %]</h4>
+        [% END %]
+      <label>Select Library:</label>
+  		<select name="branch">
+  			[% FOREACH library IN libraries %]
+  				<option	value="[% IF branch == library.branchcode %][% library.branchcode %]" selected[% ELSE %][% library.branchcode %]"[% END %]>
+  					[% library.branchname %]
+  				</option>
+  			[% END %]
+  		</select>
+      [% ELSE %]
       <label>Select Library:</label>
   		<select name="branch">
   			[% FOREACH library IN libraries %]
@@ -31,6 +42,7 @@
   				</option>
   			[% END %]
   		</select>
+      [% END %]
 
       <label>Time Range:</label>
       <select name="timerange">
