@@ -72,12 +72,18 @@
       </br>
       [% row.author %]
       </br>
+      [% IF row.homebranch == row.holdingbranch %]
+      # do nothing
+      [% ELSE %]
       home library: [% row.homebranch %]
       </br>
       holding branch: [% row.holdingbranch %]
       </br>
+      [% END %]
+      [% IF row.location %]
       Shelving location: [% row.location %]
       </br>
+      [% END %]
         <span class="NU_inventory_mark_missing">
           <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]&mbc=[% row.barcode %]&mark_missing=TRUE">
             Mark Missing
