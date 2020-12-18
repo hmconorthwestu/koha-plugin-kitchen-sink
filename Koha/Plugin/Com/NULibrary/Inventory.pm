@@ -295,9 +295,12 @@ sub inventory_step2 {
 
   my $template = $self->get_template({ file => 'inventory-step2.tt' });
 
+  my @libraries = Koha::Libraries->search;
+
   $template->param(
       print => $print,
       timerange => $timerange,
+      libraries => \@libraries,
       branch => $branch,
       results => \@results,
   );
@@ -399,9 +402,12 @@ if ( $mark_missing eq "TRUE" ) {
 
   my $template = $self->get_template({ file => 'inventory-step3.tt' });
 
+  my @libraries = Koha::Libraries->search;
+
   $template->param(
       print => $print,
       timerange => $timerange,
+      libraries => \@libraries,
       branch => $branch,
       cn => $cn,
       ccode => $ccode,
