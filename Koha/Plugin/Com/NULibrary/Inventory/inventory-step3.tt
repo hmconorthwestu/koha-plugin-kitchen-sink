@@ -74,7 +74,7 @@
     [% IF row.itemlost == 3 %] - Missing[% END %]
     [% IF row.itemlost == 6 %] - Claimed Returned[% END %]
     [% IF row.itemlost == 7 %] - Lost[% END %]
-      <dd class="NU_dd">barcode: [% row.barcode %]
+      <dd class="NU_dd"><a href="https://koha-staff.northwestu.edu/cgi-bin/koha/catalogue/moredetail.pl?itemnumber=[% row.itemnumber %]&biblionumber=[% row.biblionumber %]">[% row.barcode %]</a>
       </br>
       [% row.title %]
       </br>
