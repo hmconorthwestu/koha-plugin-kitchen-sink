@@ -7,7 +7,6 @@
 </head>
 <body>
 [% INCLUDE 'header.inc' %]
-[% INCLUDE 'cat-search.inc' %]
 
 <div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Inventory</div>
 
@@ -68,7 +67,12 @@
 
 [% IF results %]
   [% FOREACH row IN results %]
-    <dt class="NU_dt [% IF row.itemlost == '3' %]NU_inventory_missing[% END %]">[% row.itemcallnumber %] [% row.enumchron %]
+    <dt class="NU_dt [% IF row.itemlost == '3' %]NU_inventory_missing[% END %]">
+      [% IF row.itemcallnumber %]
+        [% row.itemcallnumber %] [% row.enumchron %]
+      [% ELSE %]
+        No call number
+      [% END %]
     [% IF row.itemlost == 1 %] - Lost[% END %]
     [% IF row.itemlost == 2 %] - Long Overdue[% ELSIF row.onloan > 0 %] - Checked Out[% END %]
     [% IF row.itemlost == 3 %] - Missing[% END %]
@@ -102,6 +106,10 @@
 
 
   [% END %]
+[% ELSE %]
+<a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]">
+  Back
+</a>
 [% END %]
 
 [% IF print %]
