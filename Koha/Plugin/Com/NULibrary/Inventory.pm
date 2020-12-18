@@ -378,6 +378,10 @@ if ( $mark_missing eq "TRUE" ) {
     $ccode = "NULL";
   }
 
+  if ( $cn eq "No call number" ) {
+    $ccode = "NULL";
+  }
+
   my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, i.onloan
 				FROM items i
 					LEFT JOIN biblio b ON (i.biblionumber = b.biblionumber)
