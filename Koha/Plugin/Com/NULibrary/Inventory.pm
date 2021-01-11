@@ -258,22 +258,22 @@ sub inventory_step2 {
   }
 
   my $query = "SELECT xall.ccode, xall.cn, complete, total FROM
-				(SELECT ccode, cn_source, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) total
+				(SELECT ccode, cn_source, cn_sort, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) total
 				FROM items
 				WHERE withdrawn <> '1'
 					AND ccode = '$ccode'
 					AND homebranch = '$branch'
 				GROUP BY ccode, cn
-				ORDER BY cn_source, ccode, cn) xall
+				ORDER BY cn_sort, cn_source, ccode, cn) xall
 			LEFT JOIN
-				(SELECT ccode, cn_source, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) complete
+				(SELECT ccode, cn_source, cn_sort, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) complete
 				FROM items
 				WHERE (datelastseen > '$start_date')
 					AND ccode = '$ccode'
 					AND withdrawn <> '1'
 					AND homebranch = '$branch'
 				GROUP BY ccode, cn
-				ORDER BY cn_source, ccode, cn) done
+				ORDER BY cn_sort, cn_source, ccode, cn) done
 			ON (xall.ccode = done.ccode)
 				AND (xall.cn = done.cn)";
 
@@ -290,6 +290,7 @@ sub inventory_step2 {
      $row->{'cn'} = $r->{'cn'};
       push( @results, $row );
   }
+
 
   my $filename;
 
