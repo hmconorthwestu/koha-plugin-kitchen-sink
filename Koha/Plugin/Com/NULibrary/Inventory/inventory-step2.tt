@@ -30,7 +30,7 @@
           [% IF ccode %]
           <h4>
             <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% ccode %][% IF ccode == NULL %]No collection[% END %]">
-            [% IF row.ccode == NULL %]No collection
+            [% IF ccode == NULL %]No collection
             [% ELSE %]
             [% ccode %]
             [% END %]

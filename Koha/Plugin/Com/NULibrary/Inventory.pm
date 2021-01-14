@@ -258,22 +258,22 @@ sub inventory_step2 {
   }
 
   my $query = "SELECT xall.ccode, xall.cn, complete, total FROM
-				(SELECT ccode, cn_source, cn_sort, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) total
+				(SELECT ccode, cn_source, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) total
 				FROM items
 				WHERE withdrawn <> '1'
 					AND ccode = '$ccode'
 					AND homebranch = '$branch'
 				GROUP BY ccode, cn
-				ORDER BY cn_sort, cn_source, ccode, cn) xall
+				ORDER BY cn_source, ccode, cn) xall
 			LEFT JOIN
-				(SELECT ccode, cn_source, cn_sort, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) complete
+				(SELECT ccode, cn_source, SUBSTRING_INDEX( itemcallnumber, ' ', 1 ) cn, COUNT(DISTINCT barcode) complete
 				FROM items
 				WHERE (datelastseen > '$start_date')
 					AND ccode = '$ccode'
 					AND withdrawn <> '1'
 					AND homebranch = '$branch'
 				GROUP BY ccode, cn
-				ORDER BY cn_sort, cn_source, ccode, cn) done
+				ORDER BY cn_source, ccode, cn) done
 			ON (xall.ccode = done.ccode)
 				AND (xall.cn = done.cn)";
 
@@ -383,7 +383,7 @@ if ( $mark_missing eq "TRUE" ) {
     $ccode = "NULL";
   }
 
-  my $query = "SELECT i.barcode, i.itemcallnumber, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, i.onloan
+  my $query = "SELECT i.barcode, i.itemcallnumber, i.cn_sort, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, i.onloan
 				FROM items i
 					LEFT JOIN biblio b ON (i.biblionumber = b.biblionumber)
 				WHERE (i.datelastseen < '$start_date')
@@ -391,7 +391,7 @@ if ( $mark_missing eq "TRUE" ) {
 					AND i.withdrawn <> '1'
 					AND i.homebranch = '$branch'
 					AND i.itemcallnumber LIKE '$cn %'
-				ORDER BY i.itemcallnumber
+				ORDER BY i.cn_sort, i.itemcallnumber
 			LIMIT 5000";
 
   my $sth = $dbh->prepare($query);
