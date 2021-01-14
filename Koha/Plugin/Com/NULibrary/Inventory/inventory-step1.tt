@@ -22,7 +22,7 @@
       [% IF branch %]
         <h4>[% FOREACH library IN libraries %][% IF branch == library.branchcode %][% library.branchname %][% END %][% END %]</h4>
           [% IF ccode %]
-          <h4>[% ccode %]</h4>
+          <h4>[% ccode %] (step1)</h4>
           [% END %]
         <label>Select Library:</label>
     		<select name="branch">

@@ -20,19 +20,23 @@
       <input type="hidden" name="class" value="[% CLASS %]"/>
       <input type="hidden" name="method" value="[% METHOD %]"/>
       [% IF branch %]
-        <h4>[% FOREACH library IN libraries %][% IF branch == library.branchcode %]<a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %][% IF row.ccode == NULL %]No collection[% END %]&cn=[% row.cn %][% IF row.cn == NULL %]No call number[% END %]">[% library.branchname %]</a>[% END %][% END %]</h4>
+        <h4>[% FOREACH library IN libraries %]
+              [% IF branch == library.branchcode %]
+                <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]">
+                [% library.branchname %]</a>
+              [% END %]
+            [% END %]
+        </h4>
           [% IF ccode %]
-          <h4>[% ccode %]</h4>
+          <h4>
+            <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% ccode %][% IF ccode == NULL %]No collection[% END %]">
+            [% IF row.ccode == NULL %]No collection
+            [% ELSE %]
+            [% ccode %]
+            [% END %]
+            </a>
+          </h4>
           [% END %]
-        <label>Select Library:</label>
-    		<select name="branch">
-    			[% FOREACH library IN libraries %]
-    				<option	value="[% IF branch == library.branchcode %][% library.branchcode %]" selected[% ELSE %][% library.branchcode %]"[% END %]>
-    					[% library.branchname %]
-    				</option>
-    			[% END %]
-    		</select>
-      [% ELSE %]
         <label>Select Library:</label>
     		<select name="branch">
     			[% FOREACH library IN libraries %]
