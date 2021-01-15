@@ -117,8 +117,8 @@
       Shelving location: [% row.location %]
       </br>
       [% END %]
-        <span class="NUPluginButton">
-          <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]&mbc=[% row.barcode %]&mark_missing=TRUE">
+        <span>
+          <a class="NUPluginButton" href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]&mbc=[% row.barcode %]&mark_missing=TRUE">
             Mark Missing
           </a>
         </span>
