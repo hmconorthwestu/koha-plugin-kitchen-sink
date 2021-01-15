@@ -78,8 +78,8 @@
       [% END %]
 		</select>
 
-		<input type="submit" value="Go" />
-    
+		<input class="NUPluginButton" type="submit" value="Go" />
+
     </br>
     <input id="bc" type="text" name="bc" size=15 placeholder="Barcode" autocomplete="off" autofocus >
     <input id="cn" type="hidden" name="cn" size=15 value="[% cn %]" autocomplete="off" autofocus >
@@ -117,7 +117,7 @@
       Shelving location: [% row.location %]
       </br>
       [% END %]
-        <span class="NU_inventory_mark_missing">
+        <span class="NUPluginButton">
           <a href="?class=Koha%3A%3APlugin%3A%3ACom%3A%3ANULibrary%3A%3AInventory&method=report&timerange=[% timerange %]&branch=[% branch %]&ccode=[% row.ccode %]&cn=[% row.cn %]&mbc=[% row.barcode %]&mark_missing=TRUE">
             Mark Missing
           </a>

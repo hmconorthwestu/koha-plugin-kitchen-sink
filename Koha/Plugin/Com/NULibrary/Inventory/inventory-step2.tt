@@ -62,7 +62,7 @@
       [% END %]
 		</select>
 
-		<input type="submit" value="Go" />
+		<input class="NUPluginButton" type="submit" value="Go" />
 
 	</form>
 
