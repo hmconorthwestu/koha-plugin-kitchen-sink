@@ -376,11 +376,7 @@ if ( $mark_missing eq "TRUE" ) {
   }
 
   if ( $ccode eq "No collection" ) {
-    $ccode = "NULL";
-  }
-
-  if ( $cn eq "No call number" ) {
-    $cn = "";
+    $ccode = "";
   }
 
   my $query = "SELECT i.biblionumber, i.itemnumber, i.barcode, i.itemcallnumber, i.cn_sort, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, i.onloan
@@ -389,9 +385,14 @@ if ( $mark_missing eq "TRUE" ) {
 				WHERE (i.datelastseen < '$start_date')
 					AND i.ccode = '$ccode'
 					AND i.withdrawn <> '1'
-					AND i.homebranch = '$branch'
-					AND i.itemcallnumber LIKE '$cn %'
-				ORDER BY i.cn_sort, i.enumchron, i.itemcallnumber
+					AND i.homebranch = '$branch'";
+  if ( $cn eq "No call number" ) {
+    $query .= "AND i.itemcallnumber LIKE ''";
+  } else {
+    $query .= "AND i.itemcallnumber LIKE '$cn %'";
+  }
+
+  $query .= "ORDER BY i.cn_sort, i.enumchron, i.itemcallnumber
 			LIMIT 5000";
 
   my $sth = $dbh->prepare($query);
