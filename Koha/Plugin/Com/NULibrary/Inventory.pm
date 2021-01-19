@@ -380,10 +380,10 @@ if ( $mark_missing eq "TRUE" ) {
   }
 
   if ( $cn eq "No call number" ) {
-    $ccode = "NULL";
+    $cn = "";
   }
 
-  my $query = "SELECT i.barcode, i.itemcallnumber, i.cn_sort, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, i.onloan
+  my $query = "SELECT i.biblionumber, i.itemnumber, i.barcode, i.itemcallnumber, i.cn_sort, i.homebranch, i.holdingbranch, i.ccode, i.location, i.enumchron, i.datelastseen, b.title, b.author, i.itemlost, i.onloan
 				FROM items i
 					LEFT JOIN biblio b ON (i.biblionumber = b.biblionumber)
 				WHERE (i.datelastseen < '$start_date')
@@ -391,7 +391,7 @@ if ( $mark_missing eq "TRUE" ) {
 					AND i.withdrawn <> '1'
 					AND i.homebranch = '$branch'
 					AND i.itemcallnumber LIKE '$cn %'
-				ORDER BY i.cn_sort, i.itemcallnumber
+				ORDER BY i.cn_sort, i.enumchron, i.itemcallnumber
 			LIMIT 5000";
 
   my $sth = $dbh->prepare($query);
