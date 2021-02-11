@@ -1,0 +1,88 @@
+[% USE AuthorisedValues %]
+[% INCLUDE 'doc-head-open.inc' %]
+ <title>Koha Historical Usage Report</title>
+ <script type="text/javascript" src="[% PLUGIN_PATH %]/datepicker/js/datepicker.js"></script>
+ <link href="[% PLUGIN_PATH %]/datepicker/css/datepicker.css" rel="stylesheet" type="text/css" />
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Weeding and Historical Usage</div>
+
+<div id="doc3">
+	<h3>Usage Reporting</h3>
+
+        <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
+	<form method="get">
+                <input type="hidden" name="class" value="[% CLASS %]"/>
+                <input type="hidden" name="method" value="[% METHOD %]"/>
+
+		<label class="NU_weeding_label">Select Library</label>
+		<select class="NU_weeding_select" name="branch">
+			[% FOREACH library IN libraries %]
+				<option	value="[% library.branchcode %]">
+					[% library.branchname %]
+				</option>
+			[% END %]
+		</select>
+
+		<br/><br/>
+
+		<label class="NU_weeding_label">Collection</label>
+		<select class="NU_weeding_select" name="ccode">
+			<option value="%">Any</option>
+			[% FOREACH collection IN AuthorisedValues.GetAuthValueDropbox( 'ccode') %]
+				[% IF collection.authorised_value == "General" %]
+				<option value="[% collection.authorised_value %]" selected="selected">[% collection.opac_description %]</option>
+				[% ELSE %]
+				<option value="[% collection.authorised_value %]">[% collection.opac_description %]</option>
+				[% END %]
+			[% END %]
+		</select>
+
+		<br/><br/>
+
+    <label class="NU_weeding_label">Shelving Location</label>
+		<select class="NU_weeding_select" name="location">
+			<option value="%">Any</option>
+			[% FOREACH location IN AuthorisedValues.GetAuthValueDropbox( 'LOC') %]
+				<option value="[% location.authorised_value %]">[% location.opac_description %]</option>
+			[% END %]
+		</select>
+
+		<br/><br/>
+
+			<label class="NU_weeding_label">Call number begins with (Optional)</label>
+			<input id="call-from" name="callFrom" value="" type="text" /></td>
+		<br/>
+
+		<br/>
+
+		<label class="NU_weeding_label">Published before (Optional)</label>
+		<input size="4" id="copyrightYear" name="copyrightYear" value="" maxlength="4" type="text" />
+
+		<br/><br/>
+
+    <label class="NU_weeding_label">Max checkouts (Optional)</label>
+		<input size="4" id="weedingcheckouts" name="weedingcheckouts" value="" maxlength="4" type="text" />
+
+		<br/><br/>
+
+		<label class="NU_weeding_label" for="output">Output Data to</label>
+		<select class="NU_weeding_select" name="output">
+			<option value="screen">Display List</option>
+			<option value="csv">CSV File</option>
+		</select>
+
+		<br/><br/>
+
+		<input type="submit" value="Run Report" />
+
+	</form>
+  [% IF test %]
+  [% r.test %]
+  [% END %]
+
+[% INCLUDE 'intranet-bottom.inc' %]
