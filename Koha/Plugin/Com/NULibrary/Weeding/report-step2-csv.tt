@@ -1,3 +1,0 @@
-Call Number,Enumeration,Copyright year,Title,Author,Barcode,Last checkout date,Number checkouts,Item Notes
-[% FOREACH r IN results_loop %]"[% r.callnumber %]","[% r.enumchron %]","[% r.biblio.copyrightdate %]","[% r.title %]","[% r.author %]","[% r.barcode %]","[% r.lastcheckout %]","[% r.checkouts %]","[% r.notes %]"
-[% END %]
