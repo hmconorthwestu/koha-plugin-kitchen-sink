@@ -66,7 +66,17 @@
 		<br/><br/>
 
     <label class="NU_weeding_label">Max checkouts (Optional)</label>
-		<input size="4" id="weedingcheckouts" name="weedingcheckouts" value="" maxlength="4" type="text" />
+		<input size="4" id="maxcheckouts" name="maxcheckouts" value="" maxlength="4" type="text" />
+
+		<br/><br/>
+
+    <label class="NU_weeding_label">Minimum checkouts (Optional)</label>
+		<input size="4" id="mincheckouts" name="mincheckouts" value="" maxlength="4" type="text" />
+
+		<br/><br/>
+
+    <label class="NU_weeding_label">Recent checkouts (Optional) - has checkouts after this date</label>
+		<input size="4" id="recentcheckouts" name="recentcheckouts" value="" type="date" />
 
 		<br/><br/>
 

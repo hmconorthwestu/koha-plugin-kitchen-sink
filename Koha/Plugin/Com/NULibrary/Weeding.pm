@@ -175,7 +175,8 @@ sub report_step2 {
   my $callFrom   = $cgi->param('callFrom');
   my $callTo   = $cgi->param('callTo');
   my $copyrightYear  = $cgi->param('copyrightYear');
-  my $checkouts   = $cgi->param('weedingcheckouts');
+  my $maxcheckouts   = $cgi->param('maxcheckouts');
+  my $recents        = $cgi->param('recentcheckouts');
 
   my $query = "
 	SELECT items.homebranch AS homebranch, items.ccode AS collection, items.location AS location,items.itemcallnumber AS callnumber,items.enumchron,biblio.copyrightdate as copyrightyear,items.cn_sort AS cn_sort,items.cn_source,items.datelastborrowed AS lastcheckout,items.barcode,biblio.title AS title,biblio.author,items.issues AS checkouts,items.itemnotes_nonpublic as notes
@@ -205,9 +206,21 @@ sub report_step2 {
       ";
   }
 
-  unless ( $checkouts eq undef ) {
+  unless ( $maxcheckouts eq undef ) {
       $query .= "
-          AND items.issues <= '$checkouts'
+          AND items.issues <= '$maxcheckouts'
+      ";
+  }
+
+  unless ( $mincheckouts eq undef ) {
+      $query .= "
+          AND items.issues >= '$mincheckouts'
+      ";
+  }
+
+  unless ( $recentcheckouts eq undef ) {
+      $query .= "
+          AND items.datelastborrowed >= '$recentcheckouts'
       ";
   }
 
