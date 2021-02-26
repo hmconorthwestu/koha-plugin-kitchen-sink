@@ -188,20 +188,20 @@ sub inventory_step1 {
 
   my $template = $self->get_template({ file => 'inventory-step1.tt' });
 
-  my $query = "SELECT xall.ccode, complete, total FROM
+  my $query = "SELECT xall.ccode, xall.location, complete, total FROM
   (SELECT ccode, COUNT(DISTINCT barcode) total
   FROM items
   WHERE withdrawn <> '1'
     AND homebranch = '$branch'
-  GROUP BY ccode
-  ORDER BY ccode) xall
-  LEFT JOIN (SELECT ccode, COUNT(DISTINCT barcode) complete
+  GROUP BY location, ccode
+  ORDER BY location, ccode) xall
+  LEFT JOIN (SELECT ccode, location, COUNT(DISTINCT barcode) complete
   FROM items
   WHERE (datelastseen > '2020-10-01')
     AND withdrawn <> '1'
     AND homebranch = '$branch'
-  GROUP BY ccode
-  ORDER BY ccode) done
+  GROUP BY location, ccode
+  ORDER BY location, ccode) done
   ON xall.ccode = done.ccode";
 
   my $sth = $dbh->prepare($query);
